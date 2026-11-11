@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>樣板 R1｜政府服務風｜和平實驗小學家長會</title>
+<!-- 參考：GOV.UK 服務頁（藍色頁首、Start now 綠色按鈕、summary list、radios、inset text）＋ 日本デジタル庁（中日文行高與公告列表） -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--text:#0b0c0c;--muted:#505a5f;--blue:#1d70b8;--link:#1a65a6;--green:#00703c;--green-dark:#002d18;--border:#b1b4b6;--grey:#f3f2f1;--focus:#ffdd00}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:#fff;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:var(--link);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .header{background:var(--blue);color:#fff;border-bottom:8px solid #fff;box-shadow:0 8px 0 0 var(--blue) inset}
+  .header-in{display:flex;align-items:center;justify-content:space-between;padding:13px 15px 12px}
+  .brand{color:#fff;text-decoration:none;font-weight:700;font-size:19px;letter-spacing:.02em;line-height:1.2}
+  .brand small{display:block;font-size:13px;font-weight:400;opacity:.9;letter-spacing:.04em;margin-top:2px}
+  .menu{color:#fff;font-weight:700;font-size:16px;text-decoration:none;display:flex;align-items:center;gap:6px}
+  .menu svg{width:11px;height:8px}
+  .wrap{padding:0 15px}
+  .phase{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px;line-height:1.5}
+  .tag{display:inline-block;background:#d2e2f1;color:#0c2d4a;font-weight:700;font-size:14px;padding:1px 7px 2px;letter-spacing:.04em;flex:none}
+  .tag.grey{background:#e5e6e7;color:#383f43}
+  .crumb{font-size:15px;padding:14px 0 0;color:var(--text)}
+  .crumb a{color:var(--text)}
+  .crumb span{margin:0 6px;color:var(--muted)}
+  h1{font-size:32px;line-height:1.25;font-weight:700;margin:22px 0 14px;letter-spacing:.01em}
+  .lead{font-size:19px;line-height:1.6;margin-bottom:26px;text-wrap:pretty}
+  h2{font-size:24px;line-height:1.3;font-weight:700;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+  dl{border-top:1px solid var(--border);margin-bottom:8px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding:10px 0}
+  dt{font-weight:700}
+  dd{font-variant-numeric:tabular-nums;font-size:19px}
+  .meter{height:12px;background:var(--grey);margin:14px 0 6px;position:relative}
+  .meter i{position:absolute;inset:0 auto 0 0;width:26.74%;background:var(--text)}
+  .meter-note{font-size:15px;color:var(--muted);margin-bottom:28px}
+  .start{display:inline-flex;align-items:center;gap:12px;background:var(--green);color:#fff;font-weight:700;font-size:21px;line-height:1;padding:13px 18px 14px;text-decoration:none;box-shadow:0 2px 0 var(--green-dark);border:2px solid transparent;margin-bottom:26px}
+  .start svg{width:16px;height:19px}
+  .start:focus{outline:3px solid transparent;background:var(--focus);color:var(--text);box-shadow:0 2px 0 var(--text)}
+  .inset{border-left:10px solid var(--border);padding:12px 0 12px 15px;margin:0 0 34px;font-size:17px}
+  .hint{color:var(--muted);margin:-4px 0 16px;font-size:17px}
+  .radio{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;cursor:pointer}
+  .radio input{appearance:none;flex:none;width:40px;height:40px;border:2px solid var(--text);border-radius:50%;margin:0;position:relative;background:#fff}
+  .radio input:checked::after{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--text)}
+  .radio input:focus{outline:4px solid var(--focus);outline-offset:0}
+  .radio b{display:block;font-weight:400;font-size:19px;line-height:1.35;padding-top:7px}
+  .radio span{display:block;color:var(--muted);font-size:16px;line-height:1.5;margin-top:2px}
+  .footer{margin-top:40px;background:var(--grey);border-top:1px solid var(--border);padding:24px 15px 40px;font-size:15px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-in">
+    <a class="brand" href="#">和平實驗小學家長會<small>臺北市大安區和平實驗國民小學</small></a>
+    <a class="menu" href="#">選單 <svg viewBox="0 0 11 8" aria-hidden="true"><path d="M0 0h11L5.5 8z" fill="#fff"/></svg></a>
+  </div>
+</header>
+<main class="wrap">
+  <p class="phase"><span class="tag">預覽</span><span>本頁尚未正式上線，以下數字為範例。</span></p>
+  <p class="crumb"><a href="#">家長會</a><span>›</span><a href="#">捐款</a></p>
+
+  <h1>捐款回報</h1>
+  <p class="lead">請先自行匯款到家長會專戶，再到這裡填寫回報。本頁不提供線上付款。</p>
+
+  <h2>募款進度 <span class="tag grey">範例</span></h2>
+  <dl>
+    <div class="row"><dt>已確認入帳</dt><dd>NT$133,700</dd></div>
+    <div class="row"><dt>目標</dt><dd>NT$500,000</dd></div>
+    <div class="row"><dt>達成率</dt><dd>26.7%</dd></div>
+  </dl>
+  <div class="meter" role="img" aria-label="已達成 26.7%"><i></i></div>
+  <p class="meter-note">只計算家長會核對過的入帳金額。</p>
+
+  <a class="start" href="#">我要捐款回報 <svg viewBox="0 0 33 40" aria-hidden="true"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/></svg></a>
+
+  <div class="inset">填寫前請準備好匯款日期、金額，以及轉出帳號後五碼。</div>
+
+  <h2>捐款用途</h2>
+  <p class="hint">回報時選一項。沒有特別指定的話，選第一項即可。</p>
+  <label class="radio"><input type="radio" name="p" checked><div><b>不指定</b><span>由家長會統籌運用</span></div></label>
+  <label class="radio"><input type="radio" name="p"><div><b>教師支援費</b><span>支持老師備課與教學所需</span></div></label>
+  <label class="radio"><input type="radio" name="p"><div><b>校園 iPad 汰換計畫</b><span>更新學生上課使用的平板</span></div></label>
+</main>
+<footer class="footer">和平實驗小學家長會　樣板 R1（政府服務風）　僅供風格參考</footer>
+</body>
+</html>
