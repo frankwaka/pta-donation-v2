@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-build="pta-donation-b1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF4E6">
+<meta name="robots" content="noindex, nofollow">
+<title>愛心捐款回報｜和平實驗小學家長會（尚未上線）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* 紙與墨 */
+    --cream:#FBF4E6; --paper:#FFFBF3; --ink:#3B2A20; --ink-2:#6A5242; --ink-3:#86705F; --line:#E6D5BC; --field:#CDB89A; --wood:#8E5A2E;
+    /* 主視覺四色：藍天、綠海、黃地、紅樹 */
+    --sky:#5BA4D6; --sky-d:#2C6D9C; --sky-l:#DCEBF6;
+    --sea:#2F8F74; --sea-d:#236E59; --sea-l:#D9EEE6;
+    --sun:#F0C84A; --sun-d:#9A7212; --sun-l:#FBEBC0;
+    --red:#D6453A; --red-d:#C23B30; --red-l:#F8DDD8;
+    --error:#B3261E;
+    --wobble:22px 30px 24px 34px / 30px 22px 34px 24px;
+    --wobble-2:30px 20px 32px 22px / 22px 32px 20px 30px;
+    --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+
+    /* 視窗高度：以 iPhone Safari 工具列出現時的「小視窗」為準 */
+    --vh:100vh;
+    --safe-t:env(safe-area-inset-top, 0px);
+    --safe-b:env(safe-area-inset-bottom, 0px);
+    --safe-l:env(safe-area-inset-left, 0px);
+    --safe-r:env(safe-area-inset-right, 0px);
+    --pad-x:18px;
+
+    /* 底部浮動控件尺寸與保留空間（skip／介紹鈕在三角形上方，間距 ≥ 12px） */
+    --tri-h:54px;
+    --float-h:42px;
+    --float-gap:14px;
+    --bottom-reserve:calc(var(--safe-b) + var(--tri-h) + var(--float-gap) + var(--float-h) + 12px);
+    --fig-min:max(160px, calc(var(--vh) * .3));
+    --fade:.32s;
+  }
+  @supports (height:100svh){
+    :root{ --vh:min(100dvh, 100svh); }
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.8;
+    background-color:var(--cream);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:560px; margin:0 auto; padding:0 max(20px, var(--safe-r)) 0 max(20px, var(--safe-l))}
+  a{color:var(--red-d)}
+  :focus-visible{outline:3px solid var(--sky-d); outline-offset:3px; border-radius:8px}
+  .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+
+  /* 待填標記 */
+  .tbd{display:inline-block; margin-left:6px; padding:0 8px; font-size:11.5px; font-weight:700; font-style:normal; line-height:1.65; letter-spacing:.04em;
+    color:var(--red-d); background:var(--sun-l); border:1.5px dashed var(--red-d); border-radius:10px 7px 10px 7px; vertical-align:.1em; white-space:nowrap}
+  .tbd.solid{color:#fff; background:var(--red-d); border-style:solid}
+
+  /* 共用：校名列 */
+  .brand{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .brand-l{display:flex; align-items:center; gap:10px; min-width:0}
+  .logo{flex:none; width:50px; height:50px}
+  .brand-name{display:flex; flex-wrap:wrap; align-items:center; gap:2px 8px; font-size:12.5px; font-weight:700; line-height:1.45; color:var(--ink-2); letter-spacing:.03em}
+  .status{display:inline-block; padding:0 8px; font-size:11px; font-weight:700; line-height:1.7; color:#fff; background:var(--red-d); border-radius:10px 6px 11px 7px; white-space:nowrap; transform:rotate(-2deg)}
+
+  /* 按鈕（厚陰影、按下會位移） */
+  .btn{display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:52px; padding:12px 20px;
+    font:inherit; font-size:17px; font-weight:700; letter-spacing:.06em; line-height:1.3; color:#fff; background:var(--red-d);
+    border:2.5px solid var(--ink); border-radius:var(--wobble-2); box-shadow:3px 4px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .btn:hover{background:#AE3329}
+  .btn:active{transform:translate(2px,3px); box-shadow:1px 1px 0 var(--ink)}
+  .btn .arrow{font-size:18px; letter-spacing:0}
+  .btn.is-done{background:var(--sea-d)}
+  .btn-ghost{color:var(--ink); background:var(--paper)}
+  .btn-ghost:hover{background:var(--sun-l)}
+  .btn[aria-disabled="true"]{color:var(--ink-2); background:var(--paper); border-style:dashed; box-shadow:none; cursor:not-allowed}
+  .btn[aria-disabled="true"]:active{transform:none}
+  .btn[aria-disabled="true"] small{font-size:12px; font-weight:500; color:var(--red-d)}
+
+  /* =========================================================
+   * 區塊 1：投影片（一般文件流；整頁只有 window 一個捲動者）
+   * ========================================================= */
+  .stage{position:relative; display:flex; flex-direction:column; min-height:100vh; min-height:var(--vh);
+    padding:0 var(--safe-r) var(--bottom-reserve) var(--safe-l);
+    touch-action:pan-y pinch-zoom; overflow-x:clip; transition:opacity var(--fade) ease}
+  .stage.is-fading, .report.is-fading{opacity:0}
+  .report{transition:opacity var(--fade) ease}
+
+  .stage-top{flex:none; width:100%; max-width:1120px; margin:0 auto; padding:calc(var(--safe-t) + 10px) var(--pad-x) 4px}
+  .stage-h{margin:1px 0 0; font-size:17px; font-weight:900; line-height:1.3; letter-spacing:.03em; color:var(--ink)}
+  .pager{flex:none; display:flex; flex-direction:column; align-items:center; gap:1px}
+  .dots{display:flex}
+  .dot{display:flex; align-items:center; justify-content:center; width:30px; height:30px; padding:0; background:none; border:0; cursor:pointer}
+  .dot i{display:block; width:12px; height:12px; background:var(--paper); border:2px solid var(--ink); border-radius:50%; transition:width .25s, background .25s, border-radius .25s}
+  .dot:hover i{background:var(--sun-l)}
+  .dot[aria-current="true"] i{width:24px; background:var(--red); border-radius:9px 7px 9px 7px}
+  .dot:focus-visible{outline-offset:-2px}
+  .count{font-size:12px; font-weight:700; line-height:1; letter-spacing:.1em; color:var(--ink-2); font-variant-numeric:tabular-nums}
+  .count b{font-size:14px; font-weight:900; color:var(--red-d)}
+
+  .slides{position:relative; flex:1 1 auto; display:flex; flex-direction:column; width:100%; max-width:1120px; margin:0 auto}
+  .slide{flex:1 1 auto; display:flex; flex-direction:column; gap:12px; padding:8px var(--pad-x) 0}
+  .slide:not(.is-active){display:none}
+  .slide.is-active{animation:slideIn .45s ease both}
+  .slide:focus{outline:none}
+  @keyframes slideIn{from{opacity:0}to{opacity:1}}
+  @keyframes textIn{from{transform:translateX(calc(var(--dir, 1) * 14px))}to{transform:none}}
+
+  #slide-1{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)}
+  #slide-2{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)}
+  #slide-3{--accent:var(--sky-d); --accent-l:var(--sky-l); --accent-d:var(--sky-d)}
+
+  /* 大主視覺：佔滿剩餘高度，至少 30% 可見高度 */
+  .s-fig{position:relative; flex:1 1 auto; display:flex; min-height:var(--fig-min); margin:0}
+  .s-plate{position:relative; flex:1 1 auto; min-height:0; overflow:hidden; background:var(--sky);
+    border:3px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--accent-l)}
+  .s-plate svg{position:absolute; top:0; left:0; width:100%; height:100%; display:block}
+  .plate-tag{position:absolute; right:10px; bottom:9px; z-index:1; padding:0 9px; font-size:11px; font-weight:700; line-height:1.7; letter-spacing:.06em;
+    color:var(--ink); background:rgba(255,251,243,.9); border:1.5px solid var(--ink); border-radius:12px 8px 12px 8px}
+
+  /* 左右箭頭（每頁各一組，到邊界即隱藏） */
+  .edge{position:absolute; top:50%; z-index:3; display:flex; align-items:center; justify-content:center; width:44px; height:44px; margin-top:-22px; padding:0;
+    color:var(--ink); background:var(--paper); border:2.5px solid var(--ink); border-radius:50% 46% 52% 48%; box-shadow:2px 3px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .edge:hover{background:var(--sun-l)}
+  .edge:active{transform:translate(1px,2px); box-shadow:0 1px 0 var(--ink)}
+  .edge svg{display:block; width:20px; height:20px}
+  .edge-prev{left:10px}
+  .edge-next{right:10px}
+  .edge:disabled{visibility:hidden}
+
+  /* 首次觀看：左右滑動提示 */
+  .swipe-hint{position:absolute; top:auto; left:auto; right:10px; bottom:10px; z-index:4; display:flex; align-items:center; gap:6px; padding:3px 10px 3px 6px;
+    font-size:12px; font-weight:900; line-height:1.4; letter-spacing:.06em; color:var(--ink); white-space:nowrap;
+    background:rgba(255,251,243,.95); border:2.5px solid var(--ink); border-radius:20px 16px 22px 14px; box-shadow:3px 3px 0 rgba(59,42,32,.28);
+    transform:none; pointer-events:none; transition:opacity .45s ease, transform .45s ease}
+  .swipe-hint.is-gone{opacity:0; transform:translateY(8px)}
+  .swipe-hint svg{flex:none; display:block; width:40px; height:20px; overflow:visible}
+  .swipe-hint .hand{animation:swipeHand 1.6s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 50%}
+  .swipe-hint .ch-l{animation:chevL 1.6s ease-in-out infinite}
+  .swipe-hint .ch-r{animation:chevR 1.6s ease-in-out infinite}
+  @keyframes swipeHand{0%,100%{transform:translateX(-6px) rotate(-8deg)}50%{transform:translateX(6px) rotate(8deg)}}
+  @keyframes chevL{0%,100%{opacity:1}50%{opacity:.25}}
+  @keyframes chevR{0%,100%{opacity:.25}50%{opacity:1}}
+
+  /* 文字區 */
+  .s-text{flex:none; animation:textIn .5s ease both}
+  .s-kicker{display:flex; align-items:center; gap:8px; margin:0}
+  .s-no{display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:24px; padding:0 8px; font-size:13px; font-weight:900; line-height:1; color:#fff;
+    background:var(--accent); border:2px solid var(--ink); border-radius:12px 8px 12px 8px}
+  .s-tag{padding:1px 10px; font-size:12.5px; font-weight:700; line-height:1.6; color:var(--accent-d); background:var(--accent-l); border-radius:14px 20px 12px 18px}
+  .s-title{margin:6px 0 0; font-size:clamp(26px, 7.4vw, 44px); font-weight:900; line-height:1.25; letter-spacing:.02em}
+  .s-title .mark{position:relative; z-index:0; white-space:nowrap}
+  .s-title .mark::after{content:""; position:absolute; left:-4px; right:-4px; bottom:.08em; z-index:-1; height:.36em; background:var(--sun); opacity:.7;
+    border-radius:40% 60% 50% 70% / 60% 40% 70% 50%; transform:rotate(-1.5deg)}
+  .s-title small{display:inline-block; margin-left:6px; font-size:.5em; font-weight:700; letter-spacing:.02em; color:var(--ink-2); vertical-align:.18em}
+  .s-copy{margin:6px 0 0; font-size:15px; line-height:1.7; color:var(--ink-2)}
+  .s-meta{margin:6px 0 0; font-size:12.5px; line-height:1.6; color:var(--ink-3)}
+  .s-meta .tbd{margin:0 6px 0 0}
+  .s-cta{display:inline-flex; width:auto; min-height:48px; margin-top:10px; padding:10px 22px}
+
+  @media (hover:hover) and (pointer:fine){
+    .stage[data-hover="prev"]:not(.at-first), .stage[data-hover="next"]:not(.at-last){cursor:pointer}
+  }
+
+  /* 寬螢幕：主視覺與文案左右並排，箭頭貼畫面兩側 */
+  @media (min-width:860px) and (min-height:560px){
+    :root{--pad-x:28px}
+    .slide{position:relative; flex-direction:row; align-items:stretch; gap:56px; padding:16px 96px 0}
+    .s-fig{position:static; flex:1.15 1 0; min-height:320px}
+    .s-text{flex:1 1 0; align-self:center; max-width:440px}
+    .edge-prev{left:28px} .edge-next{right:28px}
+    .s-copy{font-size:16.5px}
+  }
+
+  /* 短螢幕：先犧牲內文與間距，保住頁首與主視覺 */
+  @media (max-height:700px){
+    :root{--tri-h:48px; --float-h:38px; --pad-x:16px}
+    .stage-top{padding-top:calc(var(--safe-t) + 6px)}
+    .logo{width:46px; height:46px}
+    .stage-h{font-size:15.5px}
+    .slide{gap:10px; padding-top:6px}
+    .s-title{font-size:clamp(22px, 6.6vw, 30px); margin-top:4px}
+    .s-copy{margin-top:4px; font-size:14px; line-height:1.6}
+    .s-meta{margin-top:4px}
+    .s-cta{min-height:44px; margin-top:8px; padding:8px 20px; font-size:16px}
+    .edge{width:40px; height:40px; margin-top:-20px}
+  }
+  @media (max-height:620px){
+    .s-meta .more{display:none}
+    .s-kicker .s-tag{font-size:11.5px}
+    .s-copy{font-size:13.5px}
+    .brand-name{font-size:12px}
+  }
+  /* 手機橫放等矮視窗：主視覺放左側 */
+  @media (max-height:520px) and (orientation:landscape){
+    .slide{flex-direction:row; gap:20px}
+    .s-fig{flex:0 0 44%; min-height:200px}
+    .s-text{flex:1 1 0; align-self:center}
+  }
+
+  /* =========================================================
+   * 底部浮動控件
+   * ========================================================= */
+  .float{position:fixed; left:50%; bottom:calc(var(--safe-b) + var(--tri-h) + var(--float-gap)); z-index:30; transform:translateX(-50%);
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; height:var(--float-h); padding:0 20px;
+    font:inherit; font-size:15px; font-weight:900; letter-spacing:.08em; line-height:1; white-space:nowrap;
+    color:var(--ink); background:var(--sun); border:2.5px solid var(--ink); border-radius:22px 16px 24px 18px; box-shadow:3px 4px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .float:hover{background:#F5D56A}
+  .float:active{transform:translate(calc(-50% + 2px), 3px); box-shadow:1px 1px 0 var(--ink)}
+  .float .arrow{font-size:16px; letter-spacing:0}
+  .float-line{background:var(--paper)}
+  .float-line:hover{background:var(--sun-l)}
+
+  .tri{position:fixed; left:50%; bottom:var(--safe-b); z-index:30; transform:translateX(-50%);
+    width:180px; height:var(--tri-h); margin:0; padding:0; background:none; border:0; cursor:pointer;
+    touch-action:none; -webkit-user-select:none; user-select:none}
+  .tri svg{display:block; width:100%; height:100%; overflow:visible}
+  .tri .tri-shape{transition:transform .2s; transform-origin:90px 54px}
+  .tri:hover .tri-shape{transform:scaleY(1.07)}
+  .tri:focus-visible{outline-offset:-2px}
+  /* 循環的上滑提示：兩個小箭頭交錯向上浮現並淡出 */
+  .tri .chev{animation:chevUp 1.8s ease-in-out infinite}
+  .tri .chev-2{animation-delay:.9s}
+  @keyframes chevUp{0%{opacity:0; transform:translateY(7px)} 35%{opacity:1} 70%{opacity:1} 100%{opacity:0; transform:translateY(-7px)}}
+
+  /* 捐款資訊抽屜 */
+  .scrim{position:fixed; inset:0; z-index:40; background:rgba(59,42,32,.5); opacity:0; transition:opacity .3s}
+  .scrim.is-open{opacity:1}
+  .drawer{position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; flex-direction:column; max-width:600px; margin:0 auto;
+    max-height:88vh; max-height:88svh; background-color:var(--cream); border:3px solid var(--ink); border-bottom:0; border-radius:30px 24px 0 0 / 26px 32px 0 0;
+    box-shadow:0 -8px 0 rgba(240,200,74,.45), 0 -12px 30px rgba(59,42,32,.22); transform:translateY(105%); transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+  .drawer.is-open{transform:none}
+  .drawer.is-dragging{transition:none}
+  .drawer-head{flex:none; padding:8px 20px 0; touch-action:none}
+  .drawer-grip{display:block; width:46px; height:6px; margin:0 auto 8px; background:var(--field); border-radius:6px}
+  .drawer-title-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding-bottom:8px; border-bottom:2px dashed var(--line)}
+  .drawer-title-row h2{display:flex; align-items:center; gap:8px; margin:0; font-size:21px; font-weight:900; letter-spacing:.04em; line-height:1.3}
+  .x{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 14px; font:inherit; font-size:14px; font-weight:700; color:var(--ink);
+    background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 18px 12px; box-shadow:2px 3px 0 var(--ink); cursor:pointer}
+  .x:active{transform:translate(1px,2px); box-shadow:0 1px 0 var(--ink)}
+  .drawer-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:0 20px calc(var(--safe-b) + 24px)}
+
+  .notice{display:flex; gap:12px; align-items:flex-start; margin-top:16px; padding:12px 14px; background:var(--red-l); border:2px solid var(--red-d);
+    border-radius:var(--wobble-2); font-size:14px; line-height:1.7; color:var(--ink)}
+  .notice svg{flex:none; margin-top:2px}
+  .notice b{display:block; color:var(--red-d); font-size:15px}
+  .notice p{margin:0}
+
+  .ledger{position:relative; margin-top:24px; padding:20px 18px 16px; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sun-l)}
+  .sticker{position:absolute; top:-14px; right:16px; padding:2px 12px; font-size:12px; font-weight:700; color:#fff; background:var(--red-d); border-radius:12px 18px 10px 16px; transform:rotate(3deg)}
+  .ledger dl{margin:0}
+  .ledger .li{padding:10px 0; border-bottom:1.5px dashed var(--line)}
+  .ledger .li:last-child{border-bottom:0}
+  .ledger dt{font-size:13px; font-weight:700; color:var(--ink-2)}
+  .ledger dd{margin:2px 0 0; font-size:16.5px; font-weight:700; line-height:1.55}
+  .ledger dd > .tbd:first-child{margin-left:0}
+  .ledger .name{text-wrap:balance}
+  .ledger .acct{font-size:28px; letter-spacing:.08em; font-variant-numeric:tabular-nums}
+  .ledger .acct.is-tbd{font-size:22px; color:var(--ink-3); letter-spacing:.06em}
+  .ledger .acct.is-ready{user-select:all; -webkit-user-select:all}
+  .ledger .sub{display:block; margin-top:2px; font-size:12.5px; font-weight:400; color:var(--ink-2); line-height:1.6}
+  .ledger .btn{margin-top:12px}
+  .copy-msg{min-height:1.5em; margin:8px 0 0; font-size:13px; text-align:center; color:var(--sea-d); line-height:1.6}
+
+  .how{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:20px 0 0; padding:0; list-style:none; counter-reset:s}
+  .how li{padding:10px 8px; font-size:13px; line-height:1.55; color:var(--ink-2); text-align:center; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2)}
+  .how li::before{counter-increment:s; content:counter(s); display:block; width:28px; height:28px; margin:0 auto 4px; font-size:14px; font-weight:900; line-height:28px; color:#fff; background:var(--sky-d); border-radius:50%}
+  .how li:nth-child(2)::before{background:var(--sea-d)}
+  .how li:nth-child(3)::before{background:var(--red-d)}
+  .how li b{display:block; font-size:14.5px; color:var(--ink)}
+  .fine{margin:14px 0 0; padding:12px 14px 12px 34px; background:var(--sun-l); border-radius:var(--wobble-2); font-size:14px; line-height:1.7}
+  .fine b{color:var(--ink)}
+  .footnote{margin-top:18px; padding:12px 16px; border-left:4px solid var(--wood); background:rgba(255,251,243,.8); border-radius:0 18px 18px 0; font-size:13.5px; color:var(--ink-2); line-height:1.75}
+  .footnote b{color:var(--ink)}
+
+  /* =========================================================
+   * 區塊 2：匯款回報
+   * ========================================================= */
+  .report .wrap{padding-bottom:calc(var(--bottom-reserve) + 24px)}
+  .mast{padding-top:calc(var(--safe-t) + 14px)}
+  .r-hero{position:relative; margin-top:16px; padding:22px 20px 0; overflow:hidden; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sky-l)}
+  .r-hero::before{content:""; position:absolute; top:-6px; left:50%; width:90px; height:22px; background:rgba(240,200,74,.75); border-radius:3px; transform:translateX(-50%) rotate(-3deg)}
+  .eyebrow{display:inline-block; padding:2px 12px; font-size:13px; font-weight:700; letter-spacing:.06em; color:var(--sea-d); background:var(--sea-l); border-radius:14px 20px 12px 18px}
+  .r-title{margin:10px 0 6px; font-size:clamp(30px, 9vw, 40px); font-weight:900; line-height:1.3; letter-spacing:.03em}
+  .r-title .mark{position:relative; z-index:0}
+  .r-title .mark::after{content:""; position:absolute; left:-4px; right:-4px; bottom:.08em; z-index:-1; height:.36em; background:var(--sun); opacity:.7; border-radius:40% 60% 50% 70% / 60% 40% 70% 50%; transform:rotate(-1.5deg)}
+  .r-title:focus{outline:none}
+  .r-title:focus-visible{outline:3px solid var(--sky-d)}
+  .r-hero p{margin:0; font-size:15px; color:var(--ink-2)}
+  .r-art{position:relative; height:104px; margin:14px -20px 0; border-top:2.5px solid var(--ink)}
+  .r-art svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+  .preset-note{margin:18px 0 0; padding:10px 14px; background:var(--sun-l); border:2px dashed var(--red-d); border-radius:var(--wobble-2); font-size:14.5px; font-weight:500; line-height:1.65}
+
+  .chap{margin-top:44px; scroll-margin-top:16px}
+  .sec-title{display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:22px; font-weight:900; line-height:1.4}
+  .sec-title svg{flex:none}
+  .squiggle{display:block; width:120px; height:10px; margin:0 0 12px}
+
+  /* 表單 */
+  .form-card{margin-top:22px; padding:22px 18px 24px; background-color:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sea-l);
+    background-image:repeating-linear-gradient(transparent 0 35px, rgba(230,213,188,.3) 35px 36px)}
+  .form-intro{margin:0; font-size:14px; color:var(--ink-2)}
+  .part{margin:24px 0 0; padding:18px 0 0; border:0; border-top:2px dashed var(--line); min-width:0}
+  .part:first-of-type{margin-top:12px; padding-top:0; border-top:0}
+  .part > legend{display:flex; align-items:center; gap:8px; float:left; width:100%; padding:0; margin:0 0 2px; font-size:17px; font-weight:900; color:var(--ink)}
+  .part > legend + *{clear:both}
+  .part > legend i{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; font-style:normal; font-size:14px; color:#fff; background:var(--sky-d); border:2px solid var(--ink); border-radius:50% 45% 52% 48%}
+  .part:nth-of-type(2) > legend i{background:var(--sea-d)}
+  .part:nth-of-type(3) > legend i{background:var(--sun-d)}
+  .part:nth-of-type(4) > legend i{background:var(--red-d)}
+  .field{margin:14px 0 0; padding:0; border:0; min-width:0}
+  .lbl, .field > legend{display:block; padding:0; margin:0 0 6px; font-size:15px; font-weight:700; line-height:1.5}
+  .req{display:inline-block; margin-left:6px; padding:0 7px; font-size:11px; font-weight:700; line-height:1.6; color:#fff; background:var(--red-d); border-radius:10px 6px 10px 6px; vertical-align:2px; white-space:nowrap}
+  .nw{white-space:nowrap}
+  .opt{margin-left:6px; font-size:12px; font-weight:400; color:var(--ink-2)}
+  .hint{display:block; margin-top:5px; font-size:13px; color:var(--ink-2); line-height:1.6}
+  input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local],select{
+    display:block; width:100%; min-height:50px; padding:10px 14px; font:inherit; font-size:16px; line-height:1.5; color:var(--ink);
+    background-color:#fff; border:2px solid var(--field); border-radius:14px 18px 12px 16px; appearance:none; -webkit-appearance:none; transition:border-color .2s, box-shadow .2s}
+  input[type=number]{-moz-appearance:textfield}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
+  input[type=datetime-local]::-webkit-date-and-time-value{text-align:left}
+  input::placeholder{color:#A8957F}
+  input:focus,select:focus{outline:none; border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
+  select{cursor:pointer; padding-right:40px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%233B2A20' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center}
+  select:invalid{color:#A8957F}
+  select option{color:var(--ink)}
+  .row2{display:grid; grid-template-columns:1.4fr 1fr; gap:12px}
+  .unit{position:relative}
+  .unit::before{content:"NT$"; position:absolute; left:14px; top:50%; z-index:1; transform:translateY(-50%); font-weight:700; color:var(--wood); pointer-events:none}
+  .unit input{padding-left:56px}
+  .opts{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .opts label{position:relative}
+  .opts input{position:absolute; opacity:0; width:1px; height:1px}
+  .opts span{display:flex; align-items:center; justify-content:center; min-height:48px; padding:6px 6px; font-size:14.5px; font-weight:500; line-height:1.35; text-align:center; cursor:pointer;
+    background:#fff; border:2px solid var(--field); border-radius:16px 12px 18px 12px; transition:background .15s, border-color .15s}
+  .opts label:hover span{border-color:var(--sun-d)}
+  .opts input:checked + span{color:var(--ink); font-weight:900; background:var(--sun-l); border-color:var(--ink); box-shadow:2px 3px 0 var(--ink)}
+  .opts input:focus-visible + span{outline:3px solid var(--sky-d); outline-offset:2px}
+  .indent{margin-top:12px; padding:2px 14px 14px; background:var(--cream); border-radius:var(--wobble-2)}
+  .upload{position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; padding:10px 14px; background:#fff; border:2px dashed var(--field); border-radius:var(--wobble-2); cursor:pointer}
+  .upload:focus-within{border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
+  .upload input{position:absolute; opacity:0; width:1px; height:1px}
+  .upload span{min-width:0; font-size:15px; font-weight:700}
+  .upload small{display:block; font-size:12.5px; font-weight:400; color:var(--ink-2); word-break:break-all}
+  .upload em{flex:none; display:flex; align-items:center; min-height:38px; padding:0 14px; font-style:normal; font-size:13px; font-weight:700; background:var(--sun-l); border:2px solid var(--ink); border-radius:14px 10px 14px 10px}
+  .sign-wrap{margin-top:22px}
+  .sign{display:flex; gap:12px; align-items:flex-start; padding:14px; background:var(--sea-l); border-radius:var(--wobble-2); font-size:15px; font-weight:500; line-height:1.6; cursor:pointer}
+  .sign input{flex:none; width:24px; height:24px; margin:1px 0 0; accent-color:var(--sea-d)}
+  .submit{margin-top:20px}
+  .submit-note{margin:10px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.6; text-align:center}
+
+  /* 錯誤訊息 */
+  .err{display:block; margin:6px 0 0; font-size:13px; font-weight:500; line-height:1.55; color:var(--error)}
+  .err:empty{display:none}
+  .err::before{content:"！"; font-weight:900}
+  .is-invalid input[type=text],.is-invalid input[type=tel],.is-invalid input[type=email],.is-invalid input[type=number],.is-invalid input[type=datetime-local],.is-invalid select{border-color:var(--error); background-color:#FFF6F4}
+  .is-invalid .opts span{border-color:var(--error)}
+  .is-invalid .upload{border-color:var(--error)}
+  .is-invalid .sign{box-shadow:0 0 0 2px var(--error)}
+  .form-err{margin:16px 0 0; padding:10px 14px; color:var(--error); background:#FDEBE7; border:2px solid var(--error); border-radius:var(--wobble-2); font-size:14px; font-weight:500; line-height:1.6}
+
+  /* 感謝 */
+  .thanks{margin-top:22px; padding:28px 20px 22px; text-align:center; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sun-l); scroll-margin-top:12px}
+  .thanks:focus{outline:none}
+  .thanks h3{margin:8px 0 10px; font-size:23px; font-weight:900}
+  .thanks p{margin:0 0 16px; font-size:15px; color:var(--ink-2); text-align:left}
+  .summary{margin:0 0 18px; padding:10px 16px; background:var(--cream); border-radius:var(--wobble-2); text-align:left}
+  .summary div{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-size:15px}
+  .summary dt{color:var(--ink-2)} .summary dd{margin:0; font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+  .demo{margin:14px 0 0 !important; padding:10px 12px; border:1.5px dashed var(--field); border-radius:14px; font-size:12.5px !important; color:var(--ink-2) !important; line-height:1.6; text-align:center !important}
+
+  /* FAQ */
+  .faq{display:grid; gap:10px}
+  .faq details{background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2)}
+  .faq details[open]{box-shadow:3px 4px 0 var(--sky-l)}
+  .faq summary{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; min-height:54px; padding:10px 14px; cursor:pointer; list-style:none; font-size:15.5px; font-weight:700; line-height:1.5}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .q{display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:24px; padding:0 6px; font-size:12px; font-weight:900; color:#fff; background:var(--sky-d); border-radius:12px 8px 12px 8px}
+  .faq summary::after{content:"+"; font-size:22px; font-weight:700; line-height:1; color:var(--ink-2); transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg); color:var(--red-d)}
+  .faq summary:focus-visible{outline-offset:-3px}
+  .faq .a{padding:0 16px 14px 16px; font-size:14.5px; color:var(--ink-2); line-height:1.8}
+  .faq .a p{margin:0}
+
+  /* 聯絡 */
+  .contact{margin:0; padding:6px 16px; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble)}
+  .contact div{display:grid; grid-template-columns:6.5em 1fr; gap:12px; align-items:center; padding:10px 0; border-top:1.5px dashed var(--line)}
+  .contact div:first-child{border-top:0}
+  .contact dt{font-size:13.5px; font-weight:700; color:var(--ink-2)}
+  .contact dd{margin:0}
+  .contact dd .tbd{margin-left:0}
+
+  footer{margin-top:52px; padding:20px 0 0; text-align:center; font-size:13px; color:var(--ink-2); line-height:1.8}
+  footer svg{display:block; margin:0 auto 8px}
+  footer b{display:block; font-size:15px; color:var(--ink)}
+  footer p{margin:6px 0 0}
+
+  @media (max-width:360px){
+    .how{grid-template-columns:1fr}
+    .row2{grid-template-columns:1fr; gap:0}
+    .opts span{font-size:13.5px}
+  }
+  @media (min-width:600px){ .chap{margin-top:60px} }
+
+  /* 減少動態：淡入淡出、切頁、三角形與滑動提示的循環動畫一律停止 */
+  @media (prefers-reduced-motion:reduce){
+    *, *::before, *::after{transition:none !important; animation:none !important; scroll-behavior:auto !important}
+    .s-text{transform:none !important}
+  }
+  #c2,#c3{scroll-margin-top:72px}
+  .cta-row{display:flex; gap:10px; margin-top:10px}
+  .cta-row .s-cta{flex:1 1 0; width:auto; margin-top:0; padding:10px 8px; font-size:15px; gap:6px; white-space:nowrap}
+  .cta-row .s-cta .arrow{font-size:15px}
+  .s-direct{color:var(--ink); background:var(--sun-l, #FBE7A1)}
+  .s-direct:hover{background:#F6D978}
+  #skipBtn{display:none !important}
+  @media (max-width:420px){ .stage-top .logo{width:46px; height:46px} .stage-h{font-size:15.5px; letter-spacing:0} .brand-l{gap:8px} }
+  @media (max-width:365px){ .stage-h{font-size:14.5px} }
+  /* 主視覺小彩蛋：點天空、海、地、樹 */
+  .ix{cursor:pointer; -webkit-tap-highlight-color:transparent}
+  .ix *{transform-box:fill-box}
+  .cloud{transform-origin:50% 50%}
+  .play-sky .c1{animation:drift 1.8s ease-in-out}
+  .play-sky .c2{animation:drift 1.8s ease-in-out .12s reverse}
+  .play-sky .twinkle{animation:twinkle 1.2s ease-in-out; transform-origin:50% 50%}
+  @keyframes drift{0%,100%{transform:translateX(0)}25%{transform:translateX(18px)}60%{transform:translateX(-12px)}80%{transform:translateX(5px)}}
+  @keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.5) rotate(45deg)}}
+  .tree{transform-box:fill-box; transform-origin:50% 100%}
+  .play-tree .tree{animation:sway 1.5s ease-in-out}
+  @keyframes sway{0%,100%{transform:rotate(0)}20%{transform:rotate(-3.5deg)}45%{transform:rotate(3deg)}70%{transform:rotate(-1.5deg)}88%{transform:rotate(.8deg)}}
+  .tuft{transform-origin:50% 100%; transform:scale(0)}
+  .play-land .tuft{animation:sprout 4.2s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+  @keyframes sprout{0%{transform:scale(0)}12%{transform:scale(1.25,1.25)}18%,82%{transform:scale(1)}100%{transform:scale(0)}}
+  .boat{transform-origin:50% 100%}
+  .play-sea .boat{animation:bob 2.6s ease-in-out}
+  .play-sea .waves{animation:waveshift 2.6s ease-in-out}
+  @keyframes bob{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(4px,-6px) rotate(-6deg)}45%{transform:translate(8px,3px) rotate(5deg)}70%{transform:translate(4px,-4px) rotate(-3deg)}88%{transform:translate(1px,1px) rotate(1deg)}}
+  @keyframes waveshift{0%,100%{transform:translateX(0)}50%{transform:translateX(-10px)}}
+  .tap-hint{position:absolute; left:10px; bottom:10px; padding:3px 10px; font-size:12px; font-weight:700; color:var(--ink); background:#FFFBF3; border:2px solid #3B2A20; border-radius:999px; pointer-events:none; animation:hintpulse 1.8s ease-in-out infinite; transition:opacity .4s}
+  .tap-hint.is-gone{opacity:0}
+  @keyframes hintpulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @media (prefers-reduced-motion:reduce){ .play-sky *, .play-tree .tree, .play-sea *, .tap-hint{animation:none !important} .play-land .tuft{animation:none; transform:scale(1)} }
+  .sun{transform-box:fill-box; transform-origin:50% 50%}
+  .face-l{opacity:0}
+  .haha{opacity:0; transform-box:fill-box; transform-origin:50% 100%; pointer-events:none}
+  .play-sun .sun{animation:laugh 2s ease-in-out}
+  .play-sun .face-n{animation:hideface 2s steps(1) }
+  .play-sun .face-l{animation:showface 2s steps(1)}
+  .play-sun .haha{animation:hahapop 2s ease-out}
+  @keyframes laugh{0%,100%{transform:scale(1) rotate(0)}10%{transform:scale(1.15) rotate(-8deg)}20%{transform:scale(1.12) rotate(8deg)}30%{transform:scale(1.15) rotate(-8deg)}40%{transform:scale(1.12) rotate(8deg)}50%{transform:scale(1.15) rotate(-6deg)}60%{transform:scale(1.1) rotate(5deg)}75%{transform:scale(1.05) rotate(-2deg)}}
+  @keyframes hideface{0%{opacity:0}92%,100%{opacity:1}}
+  @keyframes showface{0%{opacity:1}92%,100%{opacity:0}}
+  @keyframes hahapop{0%{opacity:0; transform:translateY(6px) scale(.6)}12%{opacity:1; transform:translateY(0) scale(1.1)}20%,80%{opacity:1; transform:translateY(-4px) scale(1)}100%{opacity:0; transform:translateY(-14px) scale(1)}}
+  @media (prefers-reduced-motion:reduce){ .play-sun .sun, .play-sun .haha{animation:none !important} }
+  .s-plate .swipe-hint svg{position:static; inset:auto; width:40px; height:20px; min-width:0; min-height:0}
+  .apples .apple{opacity:0}
+  .play-tree .apple.a1{animation:appleDrop1 4s ease-in both}
+  .play-tree .apple.a2{animation:appleDrop2 4s ease-in both}
+  @keyframes appleDrop1{0%,12%{opacity:0;transform:translateY(-130px)}14%{opacity:1;transform:translateY(-130px)}30%{transform:translateY(0)}36%{transform:translateY(-12px)}42%{transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+  @keyframes appleDrop2{0%,20%{opacity:0;transform:translateY(-95px)}22%{opacity:1;transform:translateY(-95px)}38%{transform:translateY(0)}44%{transform:translateY(-10px)}50%{transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+  .apples .worm{transform-box:fill-box; transform-origin:0% 100%; transform:scale(0)}
+  .play-tree .worm{animation:wormPeek 4s ease-out both}
+  @keyframes wormPeek{0%,52%{transform:scale(0)}60%{transform:scale(1.15)}64%{transform:scale(1) rotate(0)}70%{transform:scale(1) rotate(-12deg)}76%{transform:scale(1) rotate(10deg)}82%{transform:scale(1) rotate(0)}100%{transform:scale(1)}}
+  .apples .wave{transform-box:fill-box; transform-origin:0% 100%}
+  .play-tree .wave{animation:wormWave 4s ease-in-out both}
+  @keyframes wormWave{0%,62%{transform:rotate(0)}68%{transform:rotate(-18deg)}74%{transform:rotate(18deg)}80%{transform:rotate(-18deg)}86%{transform:rotate(18deg)}92%,100%{transform:rotate(0)}}
+  @media (prefers-reduced-motion:reduce){ .play-tree .apple, .play-tree .worm, .play-tree .wave{animation:none !important} }
+  #swipeHint{display:none !important}
+  /* 募款進度條 */
+  .goal-track{position:relative; display:block; height:10px; background:#F3E6CF; border:2px solid var(--ink); border-radius:999px; overflow:hidden}
+  .goal-track i{position:absolute; inset:0 auto 0 0; width:0; background:linear-gradient(90deg,#4FB37A,#8EDB5A); border-right:2px solid var(--ink); border-radius:999px; transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+  .goal-track.big{height:18px; overflow:visible}
+  .goal-track.big i{border-radius:999px}
+  .goal-tree{position:absolute; top:50%; left:0; transform:translate(-50%,-55%); font-size:20px; transition:left 1.2s cubic-bezier(.2,.8,.2,1); filter:drop-shadow(0 1px 0 #fff)}
+  .goal-sample{display:inline-block; margin-left:6px; padding:0 6px; font-size:10.5px; font-weight:700; line-height:1.6; color:var(--red-d); background:var(--sun-l); border:1.5px dashed var(--red-d); border-radius:8px; vertical-align:1px; white-space:nowrap}
+  .goal-sample[hidden]{display:none}
+  .goal-mini{display:block; margin:8px 0 0; padding:6px 10px 8px; color:var(--ink); text-decoration:none; background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px}
+  .gm-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:12.5px}
+  .gm-top em{font-style:normal; font-weight:900; color:#2F8F74}
+  .goal-card{margin-top:16px; padding:14px 16px 12px; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2, 16px 12px 16px 12px); box-shadow:3px 3px 0 var(--ink)}
+  .goal-card h2{margin:0 0 6px; font-size:15px; font-weight:900; text-align:center}
+  .gc-nums{margin:0 0 12px; text-align:center; font-size:14px; color:var(--ink-2)}
+  .gc-nums b{font-size:22px; font-weight:900; color:#2F8F74}
+  .gc-foot{margin:10px 0 0; text-align:center; font-size:14px; line-height:1.6}
+  .gc-foot b{color:#2F8F74; font-size:16px}
+  .gc-foot small{color:var(--ink-3); font-size:12px}
+  @media (prefers-reduced-motion:reduce){ .goal-track i, .goal-tree{transition:none} }
+  .gm-more{margin-left:8px; font-size:11.5px; font-weight:700; color:var(--ink-3)}
+  .goal-mini{width:100%; font:inherit; text-align:left; cursor:pointer}
+  .gc-link{display:block; margin:10px auto 0; padding:4px 12px; font:inherit; font-size:13.5px; font-weight:700; color:var(--red-d); background:none; border:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+  .goal-view{position:fixed; inset:0; z-index:200; overflow-y:auto; background:var(--cream); animation:gvIn .28s ease-out}
+  .goal-view[hidden]{display:none}
+  @keyframes gvIn{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:none}}
+  .gv-wrap{max-width:520px; margin:0 auto; padding:14px 18px 40px}
+  .gv-top{display:flex; justify-content:space-between; align-items:center}
+  .gv-back{padding:6px 12px; font:inherit; font-size:15px; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; cursor:pointer}
+  .gv-title{margin:16px 0 14px; font-size:24px; font-weight:900; line-height:1.3; text-align:center}
+  .gv-hero{padding:16px 16px 12px; background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 16px 12px; box-shadow:3px 3px 0 var(--ink); text-align:center}
+  .gv-label{margin:0; font-size:13px; color:var(--ink-3)}
+  .gv-big{margin:4px 0 14px; font-size:15px; color:var(--ink-2)}
+  .gv-big b{display:block; font-size:30px; font-weight:900; color:#2F8F74; line-height:1.25}
+  .gv-pct{margin:10px 0 0; font-size:15px}
+  .gv-pct b{font-size:20px; color:#2F8F74}
+  .gv-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
+  .gv-grid.three{grid-template-columns:1fr 1fr 1fr}
+  .gv-stat,.gv-mini{padding:10px 10px 9px; background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; text-align:center}
+  .gv-stat span,.gv-mini span{display:block; font-size:12.5px; color:var(--ink-3)}
+  .gv-stat b{display:block; margin-top:2px; font-size:17px; font-weight:900}
+  .gv-stat small{display:block; font-size:11px; color:var(--ink-3)}
+  .gv-stat.is-ok{background:#E3F4E9}
+  .gv-stat.is-ok b{color:#2F8F74}
+  .gv-mini b{display:block; font-size:22px; font-weight:900}
+  .gv-mini.is-wait{background:var(--sun-l)}
+  .gv-note{margin-top:16px; padding:12px 14px; background:var(--paper); border:2px dashed var(--line); border-radius:12px}
+  .gv-note b{font-size:14px}
+  .gv-note p{margin:4px 0 0; font-size:13.5px; line-height:1.7; color:var(--ink-2)}
+  .gv-cta{width:100%; margin-top:18px}
+  body.gv-open{overflow:hidden}
+</style>
+<noscript><style>
+  /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
+  #stage, .float, .tri{display:none !important}
+  #report[hidden]{display:block !important}
+</style></noscript>
+</head>
+<body>
+
+<!-- 共用 SVG：校徽與三角形漸層 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="triGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5BA4D6" stop-opacity=".6"/>
+      <stop offset=".55" stop-color="#2F8F74" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#236E59" stop-opacity=".95"/>
+    </linearGradient>
+    <clipPath id="logoClip"><circle cx="24" cy="24" r="21"/></clipPath>
+    <symbol id="logoSym" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="22" fill="#FFF8E7"/>
+      <g transform="translate(24 24) scale(1.07) translate(-23.2 -23.8)" stroke="#3B2A20" stroke-width="1.2" stroke-linejoin="round">
+        <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke-width="6.2"/>
+        <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke="#2457B8" stroke-width="3.8"/>
+        <rect x="5.5" y="13" width="16.1" height="3.4" rx="1.4" fill="#2457B8"/>
+        <rect x="5.5" y="21.7" width="20" height="3.5" rx="1.4" fill="#2457B8"/>
+        <rect x="6.8" y="26" width="3.4" height="8.6" rx="1.4" fill="#2457B8"/>
+        <rect x="11.9" y="16" width="3.4" height="18.6" rx="1.4" fill="#2457B8"/>
+        <rect x="17" y="26" width="3.4" height="8.6" rx="1.4" fill="#2457B8"/>
+        <circle cx="8.4" cy="19.1" r="1.9" fill="#E07A2E"/>
+        <circle cx="18.9" cy="19.1" r="1.9" fill="#6FD04A"/>
+      </g>
+      <circle cx="24" cy="24" r="22" fill="none" stroke="#3B2A20" stroke-width="2.6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- =====================================================
+     區塊 1：滿版投影片（捐款項目介紹）
+     ===================================================== -->
+<section class="stage" id="stage" aria-roledescription="carousel" aria-labelledby="stageTitle">
+  <header class="stage-top">
+    <div class="brand">
+      <div class="brand-l">
+        <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+        <div>
+          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+          <h1 class="stage-h" id="stageTitle">愛心捐款・捐款項目介紹</h1>
+        </div>
+      </div>
+      <div class="pager" role="group" aria-label="切換捐款項目">
+        <div class="dots">
+          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" aria-current="true"><i></i></button>
+          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：教師支援費"><i></i></button>
+          <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫"><i></i></button>
+        </div>
+        <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 3</span>
+      </div>
+    </div>
+        <button type="button" class="goal-mini" data-goal-open aria-label="看募款進度詳情">
+        <span class="gm-top"><b>募款進度</b><span class="gm-more">看詳情 ›</span><span><em data-goal-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
+        <span class="goal-track" aria-hidden="true"><i data-goal-bar></i></span>
+      </button>
+  </header>
+
+  <div class="slides">
+
+    <!-- 01 不指定 -->
+    <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" data-title="不指定（由家長會統籌運用）" tabindex="-1">
+      <figure class="s-fig">
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天下、綠色海面前的黃色土地上，長著一棵紅色大樹，四周小小的心意朝大樹聚集">
+            <g class="ix" data-ix="sky"><rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="120" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g class="ix sun" data-ix="sun"><g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M320 58v-12M320 142v12M278 100h-12M362 100h12M290 70l-8-8M350 130l8 8M350 70l8-8M290 130l-8 8"/></g>
+            <circle cx="320" cy="100" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <g class="face-n"><path d="M309 98q3 4 6 0M325 98q3 4 6 0M311 110q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/></g>
+            <g class="face-l"><path d="M308 99l4-5 4 5M324 99l4-5 4 5" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M308 105h24q-1 15-12 15t-12-15z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.3" stroke-linejoin="round"/><circle cx="305" cy="108" r="3.5" fill="#EF8276"/><circle cx="335" cy="108" r="3.5" fill="#EF8276"/></g></g>
+            <path class="cloud c1" d="M40 122c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H44c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path class="cloud c2" d="M180 84c1-8 12-11 19-6 4-7 16-6 19 2 9 0 11 9 6 13h-41c-7 0-8-6-3-9z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round"/>
+            <path class="twinkle" d="M110 60l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            </g>
+            <!-- 綠海 -->
+            <g class="ix" data-ix="sea">
+            <path d="M-10 212c40-10 84-10 124-2s84 10 124 0 84-10 172 0V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g class="waves" fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M24 244q8-6 16 0t16 0M296 238q8-6 16 0t16 0M118 256q8-6 16 0t16 0M330 268q8-6 16 0t16 0"/></g>
+            <g class="boat"><path d="M52 230h40l-6 10H58z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M72 228v-34l18 30z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/></g>
+            </g>
+            <!-- 黃地 -->
+            <g class="ix" data-ix="land">
+            <path d="M-10 286c60-26 140-30 210-16s150 18 220-8V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="54" cy="330" r="3"/><circle cx="92" cy="356" r="2.5"/><circle cx="300" cy="336" r="3"/><circle cx="340" cy="360" r="2.5"/><circle cx="150" cy="350" r="2.5"/><circle cx="250" cy="364" r="3"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M36 316l4-10 4 10M48 318l3-8 3 8M340 312l4-10 4 10M120 330l3-8 3 8"/></g>
+            <g class="tufts"><path class="tuft" style="--d:0ms" d="M62 350q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:90ms" d="M122 372q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:180ms" d="M262 350q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:270ms" d="M322 378q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:360ms" d="M22 370q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:450ms" d="M364 336q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:540ms" d="M152 330q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:630ms" d="M232 388q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:720ms" d="M92 392q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:810ms" d="M292 396q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/></g>
+            </g>
+            <ellipse cx="200" cy="312" rx="50" ry="7" fill="#D9A92E" pointer-events="none"/>
+            <!-- 紅樹 -->
+            <g class="ix tree" data-ix="tree">
+            <path d="M200 262c-12-6-22-14-30-26M202 250c12-6 20-14 26-26" fill="none" stroke="#3B2A20" stroke-width="3" stroke-linecap="round"/>
+            <path d="M188 312c4-28 5-60 2-92h20c-3 32-2 64 2 92z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M200 96c40-3 70 22 68 54 22 15 17 55-13 62-10 23-50 26-60 10-25 14-63 3-63-24-24-13-20-48 6-56 2-30 30-46 62-46z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="168" cy="140" r="9"/><circle cx="236" cy="128" r="6"/><circle cx="246" cy="184" r="10"/><circle cx="158" cy="194" r="6"/><circle cx="206" cy="168" r="5"/></g>
+            <g fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.8" stroke-linejoin="round">
+              <path d="M194 128c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
+              <path d="M214 196c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
+              <path d="M150 162c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
+            </g>
+            </g>
+            <!-- 搖樹掉蘋果 -->
+            <g class="apples" pointer-events="none">
+              <g transform="translate(238 334) scale(1.5)"><g class="apple a2"><g class="apple-in"><path d="M0 -7c-3-3-10-2-10 5c0 6 5 10 10 8c5 2 10-2 10-8c0-7-7-8-10-5z" fill="#E8473B" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path d="M0 -7q1-4 3-6" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/><path d="M2 -10q5-4 9-1q-4 4-9 1z" fill="#6FD04A" stroke="#3B2A20" stroke-width="1.5" stroke-linejoin="round"/><circle cx="-5" cy="-2" r="1.8" fill="#FFB3A8"/><g class="worm"><circle cx="8" cy="-3" r="4.6" fill="#7FCF4C" stroke="#3B2A20" stroke-width="1.8"/><circle cx="12" cy="-9.5" r="5.4" fill="#8EDB5A" stroke="#3B2A20" stroke-width="1.8"/><circle cx="15.5" cy="-16.5" r="6" fill="#7FCF4C" stroke="#3B2A20" stroke-width="1.8"/><circle cx="12" cy="-11" r="1.2" fill="#FFF3B0"/><circle cx="15.5" cy="-18" r="1.3" fill="#FFF3B0"/><g class="wave"><path d="M22 -14q7 1 11 -4" fill="none" stroke="#3B2A20" stroke-width="4.2" stroke-linecap="round"/><path d="M22 -14q7 1 11 -4" fill="none" stroke="#8EDB5A" stroke-width="2.4" stroke-linecap="round"/></g><path d="M15 -32q-2 -5 -5 -6M21 -32q2 -5 5 -6" fill="none" stroke="#3B2A20" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="-38" r="1.9" fill="#F2C94C" stroke="#3B2A20" stroke-width="1.2"/><circle cx="26" cy="-38" r="1.9" fill="#F2C94C" stroke="#3B2A20" stroke-width="1.2"/><circle cx="18" cy="-25" r="8.2" fill="#8EDB5A" stroke="#3B2A20" stroke-width="1.8"/><circle cx="15" cy="-26" r="2" fill="#3B2A20"/><circle cx="21.2" cy="-26" r="2" fill="#3B2A20"/><circle cx="15.6" cy="-26.7" r=".7" fill="#fff"/><circle cx="21.8" cy="-26.7" r=".7" fill="#fff"/><ellipse cx="12.6" cy="-22.6" rx="1.8" ry="1.1" fill="#FF9AA2"/><ellipse cx="23.6" cy="-22.6" rx="1.8" ry="1.1" fill="#FF9AA2"/><path d="M16.4 -22.4q1.7 1.8 3.4 0" fill="none" stroke="#3B2A20" stroke-width="1.3" stroke-linecap="round"/></g></g></g></g>
+            </g>
+            <!-- 小小心意朝大樹聚集 -->
+            <g pointer-events="none">
+            <g fill="none" stroke-width="2.6" stroke-dasharray="1 8" stroke-linecap="round">
+              <path d="M72 172c20-4 38 0 54 8" stroke="#FFFBF3"/><path d="M340 192c-22-8-44-8-62-2" stroke="#FFFBF3"/>
+            </g>
+            <g fill="#D6453A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round">
+              <path d="M52 168c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M342 188c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M72 338c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M320 342c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+            </g>
+            </g>
+          </svg>
+          <p class="swipe-hint" id="swipeHint" aria-hidden="true">
+      <svg viewBox="0 0 52 26" focusable="false">
+        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="hand">
+          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
+          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
+        </g>
+      </svg>
+      <span>左右滑動看更多</span>
+    </p>
+          <span class="tap-hint" aria-hidden="true">點點看 👆</span>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><span class="s-no">01</span><span class="s-tag">預設選項</span></p>
+        <h2 class="s-title"><span class="mark">不指定</span><small>（由家長會統籌運用）</small></h2>
+        <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">細項說明待家長會確認後補充。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+
+    <!-- 02 教師支援費 -->
+    <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：教師支援費" data-title="教師支援費" tabindex="-1" aria-hidden="true">
+      <figure class="s-fig">
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天與綠色海面下，黃色土地上有一塊小黑板、一疊書和一支鉛筆，旁邊是一棵紅色的樹">
+            <rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="300" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M80 62v-12M80 146v12M38 104h-12M122 104h12M50 74l-8-8M110 134l8 8M110 74l8-8M50 134l-8 8"/></g>
+            <circle cx="80" cy="104" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <path d="M69 102q3 4 6 0M85 102q3 4 6 0M71 114q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M262 112c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19h-61c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M176 82q6-6 12 0q6-6 12 0M208 98q5-5 10 0q5-5 10 0" fill="none" stroke="#3B2A20" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- 綠海 -->
+            <path d="M-10 206c50-8 100-8 140 0s100 8 140 0 80-8 140 0V296H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M20 236q8-6 16 0t16 0M150 230q8-6 16 0t16 0M300 244q8-6 16 0t16 0"/></g>
+            <!-- 黃地 -->
+            <path d="M-10 280c70-20 150-22 220-10s140 16 200-4V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="40" cy="352" r="3"/><circle cx="120" cy="364" r="2.5"/><circle cx="356" cy="340" r="3"/><circle cx="300" cy="372" r="2.5"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M110 326l4-10 4 10M350 316l4-10 4 10M362 318l3-8 3 8"/></g>
+            <!-- 紅樹 -->
+            <path d="M300 318c3-26 4-52 1-80h18c-3 28-2 54 2 80z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M310 124c32-2 56 18 54 44 18 12 14 44-10 50-8 18-40 21-48 8-20 11-50 2-50-19-19-10-16-38 5-45 2-24 24-38 49-38z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="286" cy="160" r="8"/><circle cx="336" cy="150" r="6"/><circle cx="340" cy="196" r="9"/><circle cx="290" cy="204" r="5"/></g>
+            <!-- 小黑板 -->
+            <ellipse cx="182" cy="320" rx="70" ry="7" fill="#D9A92E"/>
+            <g stroke-linecap="round"><path d="M132 318l24-120M232 318l-24-120M182 198v122" stroke="#3B2A20" stroke-width="10"/><path d="M132 318l24-120M232 318l-24-120M182 198v122" stroke="#B9783F" stroke-width="5"/></g>
+            <rect x="96" y="146" width="172" height="112" rx="12" fill="#B9783F" stroke="#3B2A20" stroke-width="3"/>
+            <rect x="106" y="156" width="152" height="92" rx="7" fill="#24614F" stroke="#3B2A20" stroke-width="2"/>
+            <g fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M120 180h48M120 198h34M120 216h52M120 234h26"/><circle cx="218" cy="202" r="20"/><path d="M208 202l7 8 13-15"/></g>
+            <path d="M246 164l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#F0C84A"/>
+            <rect x="100" y="256" width="164" height="9" rx="3" fill="#8E5A2E" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="122" y="250" width="16" height="6" rx="2" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.5"/>
+            <rect x="144" y="250" width="12" height="6" rx="2" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.5"/>
+            <!-- 一疊書與蘋果 -->
+            <rect x="26" y="314" width="80" height="16" rx="3" fill="#5BA4D6" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="34" y="298" width="68" height="16" rx="3" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="30" y="282" width="72" height="16" rx="3" fill="#2F8F74" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M40 290h50M44 306h46M36 322h58" stroke="#FFFBF3" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+            <circle cx="66" cy="268" r="13" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M66 256v-6" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M67 252c4-6 10-6 13-4-3 5-8 6-13 4z" fill="#2F8F74" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <!-- 鉛筆 -->
+            <g transform="rotate(-12 246 340)">
+              <rect x="206" y="332" width="82" height="16" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+              <path d="M288 332l18 8-18 8z" fill="#F3D9B1" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M300 337.4l6 2.6-6 2.6z" fill="#3B2A20"/>
+              <rect x="194" y="332" width="12" height="16" rx="2" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            </g>
+          </svg>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：不指定（由家長會統籌運用）"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><span class="s-no">02</span><span class="s-tag">可指定</span></p>
+        <h2 class="s-title"><span class="mark">教師支援費</span></h2>
+        <p class="s-copy">支持老師備課與教學所需的支援。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">支用範圍與細項，待家長會確認後說明。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+
+    <!-- 03 校園 iPad 汰換計畫 -->
+    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫" data-title="校園 iPad 汰換計畫" tabindex="-1" aria-hidden="true">
+      <figure class="s-fig">
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天、綠色海面與黃色土地之間，一台舊平板換成新平板，旁邊有一棵紅色的樹">
+            <defs><clipPath id="p3screen"><rect x="224" y="150" width="108" height="148" rx="6"/></clipPath></defs>
+            <rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="140" cy="10" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M326 56v-12M326 140v12M284 98h-12M368 98h12M296 68l-8-8M356 128l8 8M356 68l8-8M296 128l-8 8"/></g>
+            <circle cx="326" cy="98" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <path d="M315 96q3 4 6 0M331 96q3 4 6 0M317 108q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M36 104c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H40c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- 綠海 -->
+            <path d="M-10 210c46-10 96-10 140-2s96 10 140 0 86-10 140-2V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M150 240q8-6 16 0t16 0M24 256q8-6 16 0t16 0M354 236q8-6 16 0t16 0"/></g>
+            <!-- 黃地 -->
+            <path d="M-10 284c70-24 150-26 220-12s140 14 200-6V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="160" cy="350" r="3"/><circle cx="210" cy="372" r="2.5"/><circle cx="370" cy="350" r="3"/><circle cx="40" cy="360" r="2.5"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M140 322l4-10 4 10M152 324l3-8 3 8M362 322l4-10 4 10"/></g>
+            <!-- 紅樹 -->
+            <ellipse cx="82" cy="322" rx="44" ry="6" fill="#D9A92E"/>
+            <path d="M72 320c3-26 4-52 1-80h18c-3 28-2 54 2 80z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M82 128c30-2 52 18 50 42 17 11 13 41-9 47-8 17-38 20-45 8-19 10-47 2-47-18-18-9-15-36 4-42 2-23 22-37 47-37z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="60" cy="160" r="8"/><circle cx="106" cy="152" r="6"/><circle cx="110" cy="198" r="8"/><circle cx="58" cy="204" r="5"/></g>
+            <!-- 舊平板（虛線、裂痕） -->
+            <g transform="rotate(-12 198 232)">
+              <rect x="150" y="164" width="96" height="134" rx="14" fill="#E6D5BC" stroke="#3B2A20" stroke-width="3" stroke-dasharray="8 6"/>
+              <rect x="160" y="176" width="76" height="106" rx="5" fill="#CDB89A"/>
+              <path d="M178 192l16 22-8 6 16 24" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <!-- 新平板（螢幕裡也有藍天、綠海、黃地、紅樹） -->
+            <g transform="rotate(7 278 224)">
+              <rect x="214" y="138" width="128" height="172" rx="18" fill="#3B2A20"/>
+              <g clip-path="url(#p3screen)">
+                <rect x="224" y="150" width="108" height="148" fill="#5BA4D6"/>
+                <circle cx="248" cy="174" r="10" fill="#F0C84A"/>
+                <rect x="224" y="222" width="108" height="30" fill="#2F8F74"/>
+                <path d="M224 258c30-10 70-12 108-4V298H224z" fill="#F0C84A"/>
+                <path d="M300 262v-24" stroke="#8E5A2E" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="300" cy="226" r="17" fill="#D6453A" stroke="#3B2A20" stroke-width="2"/>
+              </g>
+              <circle cx="278" cy="304" r="3" fill="#86705F"/>
+            </g>
+            <!-- 汰換：循環箭頭 -->
+            <path d="M160 152c22-36 82-52 122-30" fill="none" stroke="#D6453A" stroke-width="5" stroke-linecap="round"/>
+            <path d="M272 108l22 18-26 8z" fill="#D6453A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M330 326c-40 18-104 14-140-8" fill="none" stroke="#FFFBF3" stroke-width="5" stroke-linecap="round"/>
+            <path d="M200 332l-20-20 26-4z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M366 156l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M200 96l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><span class="s-no">03</span><span class="s-tag">可指定</span></p>
+        <h2 class="s-title"><span class="mark">校園 iPad 汰換計畫</span></h2>
+        <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">汰換範圍與時程，待家長會確認後公告。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <p class="sr-only" id="slideStatus" aria-live="polite" aria-atomic="true"></p>
+</section>
+
+
+<!-- 募款進度分頁 -->
+<section class="goal-view" id="goalView" role="dialog" aria-modal="true" aria-labelledby="gvTitle" hidden>
+  <div class="gv-wrap">
+    <header class="gv-top">
+      <button type="button" class="gv-back" data-goal-close aria-label="返回">‹ 返回</button>
+      <span class="goal-sample" data-goal-sample>範例數字</span>
+    </header>
+    <h2 class="gv-title" id="gvTitle">115 學年度家長會<br>募款進度</h2>
+    <div class="gv-hero">
+      <p class="gv-label">已確認入帳／募款目標</p>
+      <p class="gv-big"><b data-goal-confirmed>NT$0</b><span>/ <span data-goal-target>NT$0</span></span></p>
+      <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
+      <p class="gv-pct">已達成 <b data-goal-pct>0%</b></p>
+    </div>
+    <div class="gv-grid">
+      <div class="gv-stat"><span>募款目標</span><b data-goal-target>NT$0</b></div>
+      <div class="gv-stat"><span>家長已回報</span><b data-goal-reported>NT$0</b><small>含尚未對帳</small></div>
+      <div class="gv-stat is-ok"><span>已確認入帳</span><b data-goal-confirmed>NT$0</b><small>家長會已對帳</small></div>
+      <div class="gv-stat"><span>還差多少</span><b data-goal-left>NT$0</b></div>
+    </div>
+    <div class="gv-grid three">
+      <div class="gv-mini"><span>已確認筆數</span><b data-goal-count>0</b></div>
+      <div class="gv-mini is-wait"><span>待確認入帳</span><b data-goal-pending>0</b></div>
+      <div class="gv-mini"><span>支持家庭</span><b data-goal-donors>0</b></div>
+    </div>
+    <div class="gv-note">
+      <b>這些數字怎麼來的？</b>
+      <p>家長匯款後填寫回報，家長會對完帳才算「已確認入帳」，進度條只算已確認的金額。本頁只顯示總數，不會公開任何家長的姓名或金額。<span data-goal-updated>每天更新</span>。</p>
+    </div>
+    <button type="button" class="btn gv-cta" data-goal-close data-goal-donate><span>我也要支持</span><span class="arrow" aria-hidden="true">→</span></button>
+  </div>
+</section>
+<!-- =====================================================
+     區塊 2：匯款回報表單
+     ===================================================== -->
+<main class="report" id="report" aria-labelledby="reportTitle" hidden>
+  <div class="wrap">
+    <header class="mast">
+      <div class="brand">
+        <div class="brand-l">
+          <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+        </div>
+      </div>
+      <div class="r-hero">
+        <span class="eyebrow">愛心捐款・先匯款，再回報</span>
+        <h1 class="r-title" id="reportTitle" tabindex="-1">匯款<span class="mark">回報</span></h1>
+        <p>完成匯款後，請在這裡留下對帳資料，家長會才能把入帳紀錄對應到您。</p>
+        <div class="r-art" aria-hidden="true">
+          <svg viewBox="0 0 400 110" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <rect width="400" height="110" fill="#5BA4D6"/>
+            <circle cx="60" cy="34" r="16" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M150 34c1-7 11-10 17-5 4-6 14-5 17 2 8 0 10 8 5 11h-36c-6 0-7-5-3-8z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2"/>
+            <path d="M-10 58c50-6 110-6 160 0s110 6 160 0 70-6 100 0V90H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M-10 84c70-12 160-14 230-6s130 8 190-2V120H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M326 96c2-12 2-24 1-36h12c-1 12-1 24 1 36z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M333 12c20-1 34 12 32 28 10 8 6 26-10 28-6 10-28 10-32 2-14 6-32-2-30-16-10-8-6-24 8-26 2-12 16-16 32-16z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+
+    <section class="goal-card" aria-labelledby="goalTitle">
+      <h2 id="goalTitle">115 學年度家長會募款進度 <span class="goal-sample" data-goal-sample>範例數字</span></h2>
+      <p class="gc-nums"><b data-goal-confirmed>NT$0</b><span> / 目標 <span data-goal-target>NT$0</span></span></p>
+      <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
+      <p class="gc-foot">已達成 <b data-goal-pct>0%</b>・<span data-goal-count>0</span> 筆捐款<br><small>只計算家長會已確認入帳的金額，<span data-goal-updated>每天更新</span>。</small></p>
+      <button type="button" class="gc-link" data-goal-open>看完整募款進度 ›</button>
+    </section>
+
+    <aside class="notice" aria-label="本頁狀態">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
+      <div>
+        <b>小提醒｜本頁尚未正式上線</b>
+        <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong>請先看下方「第一步：捐款資訊」，匯款完成後再按「我匯好了，去回報」。</p>
+      </div>
+    </aside>
+
+
+    <section class="chap" id="c2" aria-labelledby="c2-title" style="margin-top:0">
+      <h2 class="sec-title" id="c2-title">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="8" width="24" height="16" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M3 13h24" stroke="#3B2A20" stroke-width="2"/><path d="M7 19h6" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/></svg>
+        第一步｜捐款資訊
+      </h2>
+      <p class="preset-note" id="presetNote" role="status" hidden></p>
+      <div class="ledger">
+        <span class="sticker" aria-hidden="true">待填・尚未公告</span>
+        <dl>
+          <div class="li"><dt>銀行</dt><dd><span class="tbd">待填</span></dd><dd class="sub">銀行名稱與代碼尚未公告。</dd></div>
+          <div class="li"><dt>分行</dt><dd><span class="tbd">待填</span></dd></div>
+          <div class="li"><dt>戶名</dt><dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd><dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd></div>
+          <div class="li"><dt>帳號</dt><dd class="acct is-tbd" aria-label="帳號待填，尚未公告">———— ——— ———</dd><dd class="sub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd></div>
+        </dl>
+        <button type="button" class="btn" id="copyBtn2" aria-describedby="copyMsg2"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>複製帳號</span></button>
+        <p class="copy-msg" id="copyMsg2" role="status" aria-live="polite"></p>
+      </div>
+      <ol class="how">
+        <li><b>自行匯款</b>先用自己的帳戶匯款至專戶。</li>
+        <li><b>保留證明</b>截圖或保留交易明細。</li>
+        <li><b>回來回報</b>匯好後按下方按鈕填寫對帳資料。</li>
+      </ol>
+      <button type="button" class="btn s-cta" id="doneBtn" style="width:100%;justify-content:center;margin-top:16px"><span>我匯好了，去回報</span><span class="arrow" aria-hidden="true">→</span></button>
+    </section>
+
+    <section class="chap" id="c3" aria-label="匯款回報表單" hidden>
+      <h2 class="sec-title" id="c3-title">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="5" y="3" width="20" height="24" rx="4" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2"/><path d="M10 10h10M10 15h10M10 20h6" stroke="#2F8F74" stroke-width="2" stroke-linecap="round"/></svg>
+        第二步｜匯款回報
+      </h2>
+      <form class="form-card form" id="reportForm" autocomplete="on">
+        <p class="form-intro">標示<span class="req">必填</span>的欄位請務必填寫。約需 2 分鐘。</p>
+
+        <fieldset class="part">
+          <legend><i>A</i>捐款人</legend>
+          <div class="field" data-field>
+            <label class="lbl" for="donorName">捐款人姓名<span class="req">必填</span></label>
+            <input id="donorName" name="donorName" type="text" autocomplete="name" required maxlength="30" placeholder="王大明" data-name="捐款人姓名">
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="phone">電話<span class="req">必填</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0912-345-678" aria-describedby="phoneHint" data-name="電話">
+            <span class="hint" id="phoneHint">手機 09 開頭共 10 碼，或含區碼的市話（例如 <span class="nw">02-2345-6789</span>）。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="email">Email<span class="req">必填</span></label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="100" placeholder="name@example.com" data-name="Email" data-msg-required="請填寫 Email">
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>B</i>子女</legend>
+          <div class="row2">
+            <div class="field" data-field>
+              <label class="lbl" for="childClass">年級班別<span class="req">必填</span></label>
+              <select id="childClass" name="childClass" required data-name="年級班別" data-msg-required="請選擇年級班別">
+                <option value="" selected disabled>請選擇</option>
+                <option value="幼稚園 野薑花班">幼稚園 野薑花班</option>
+                <option value="一年級 月橘班">一年級 月橘班</option>
+                <option value="二年級 桂花班">二年級 桂花班</option>
+                <option value="三年級 山櫻班">三年級 山櫻班</option>
+                <option value="四年級 欒樹班">四年級 欒樹班</option>
+                <option value="五年級 木棉班">五年級 木棉班</option>
+                <option value="六年級 楓香班">六年級 楓香班</option>
+              </select>
+            </div>
+            <div class="field" data-field>
+              <label class="lbl" for="childSeat">座號<span class="req">必填</span></label>
+              <input id="childSeat" name="childSeat" type="number" inputmode="numeric" required min="1" max="60" step="1" placeholder="12" data-name="座號">
+            </div>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="childName">子女姓名<span class="req">必填</span></label>
+            <input id="childName" name="childName" type="text" autocomplete="off" required maxlength="30" placeholder="王小芳" data-name="子女姓名">
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>C</i>匯款</legend>
+          <div class="field" data-field>
+            <label class="lbl" for="paidAt">匯款日期與時間<span class="req">必填</span></label>
+            <input id="paidAt" name="paidAt" type="datetime-local" required data-name="匯款日期與時間" aria-describedby="paidAtHint">
+            <span class="hint" id="paidAtHint">請填轉帳成功的時間，約略到分鐘即可；不可晚於現在。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="amount">金額（新台幣）<span class="req">必填</span></label>
+            <div class="unit"><input id="amount" name="amount" type="number" inputmode="numeric" required min="1" step="1" placeholder="1000" data-name="金額"></div>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="last5">轉出帳號後五碼<span class="req">必填</span></label>
+            <input id="last5" name="last5" type="text" inputmode="numeric" autocomplete="off" required minlength="5" maxlength="5" pattern="[0-9]{5}" placeholder="12345" aria-describedby="last5Hint" data-name="轉出帳號後五碼">
+            <span class="hint" id="last5Hint">請填您自己轉出帳戶的後五碼，方便對帳。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
+            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途">
+              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處與投影片。 -->
+              <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
+              <option value="教師支援費">教師支援費</option>
+              <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>D</i>收據與徵信</legend>
+          <fieldset class="field" data-field>
+            <legend>收據<span class="req">必填</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="receipt" value="不需要" required data-msg-required="請選擇是否需要收據"><span>不需要</span></label>
+              <label><input type="radio" name="receipt" value="電子收據"><span>電子收據</span></label>
+              <label><input type="radio" name="receipt" value="紙本收據"><span>紙本收據</span></label>
+            </div>
+          </fieldset>
+          <div class="indent" id="receiptExtra" hidden>
+            <div class="field" data-field>
+              <label class="lbl" for="receiptTitle">收據抬頭<span class="req">必填</span></label>
+              <input id="receiptTitle" name="receiptTitle" type="text" maxlength="40" placeholder="個人姓名或公司名稱" data-name="收據抬頭">
+            </div>
+            <div class="field" data-field>
+              <label class="lbl" for="taxId">統一編號<span class="opt">選填</span></label>
+              <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]{8}" placeholder="8 位數字" data-name="統一編號">
+            </div>
+            <span class="hint" id="receiptNote"></span>
+          </div>
+          <fieldset class="field" data-field>
+            <legend>公開徵信<span class="req">必填</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="disclose" value="全名" required data-msg-required="請選擇公開徵信方式"><span>全名</span></label>
+              <label><input type="radio" name="disclose" value="部分隱藏"><span>部分隱藏</span></label>
+              <label><input type="radio" name="disclose" value="不公開"><span>不公開</span></label>
+            </div>
+            <span class="hint">部分隱藏例如王○明。</span>
+          </fieldset>
+          <div class="field" data-field>
+            <span class="lbl" id="proofLbl">轉帳截圖<span class="opt">選填</span></span>
+            <label class="upload">
+              <input id="proof" name="proof" type="file" accept="image/*" aria-labelledby="proofLbl proofName" data-name="轉帳截圖">
+              <span>上傳圖片<small id="proofName">尚未選擇檔案</small></span>
+              <em aria-hidden="true">選擇</em>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="sign-wrap" data-field>
+          <label class="sign">
+            <input type="checkbox" id="agree" name="agree" value="yes" required data-msg-required="請勾選確認後再送出">
+            <span>我已完成匯款，並確認以上資料正確。<span class="req">必填</span></span>
+          </label>
+        </div>
+
+        <p class="form-err" id="formErr" role="alert" hidden></p>
+        <button type="submit" class="btn submit"><span>送出回報</span><span class="arrow" aria-hidden="true">→</span></button>
+        <p class="submit-note">本頁尚未上線：送出僅為前端示意，資料不會傳送或儲存。</p>
+      </form>
+
+      <div class="thanks" id="thanks" tabindex="-1" hidden>
+        <svg width="96" height="80" viewBox="0 0 96 80" aria-hidden="true">
+          <g stroke="#3B2A20" stroke-width="2.4" stroke-linecap="round"><path d="M48 4v8M22 14l6 6M74 14l-6 6M10 40h8M78 40h8"/></g>
+          <path d="M48 70S24 56 24 38c0-8 6-14 12-14 5 0 9 3 12 7 3-4 7-7 12-7 6 0 12 6 12 14 0 18-24 32-24 32z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M36 36c0-4 3-6 6-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        </svg>
+        <h3>感謝您完成匯款回報</h3>
+        <p>家長會將依「匯款日期、金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
+        <dl class="summary">
+          <div><dt>匯款時間</dt><dd id="sumDate">—</dd></div>
+          <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
+          <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
+        </dl>
+        <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
+        <p class="demo">本頁尚未上線：這筆回報僅為前端示意，未傳送、也未儲存任何資料。</p>
+      </div>
+    </section>
+
+    <!-- 聯絡 -->
+    <section class="chap" id="c5" aria-labelledby="c5-title">
+      <h2 class="sec-title" id="c5-title">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="7" width="24" height="17" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M4 9l11 8 11-8" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/></svg>
+        聯絡家長會
+      </h2>
+      <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6c10-6 18 4 28 0s18-6 28 0 18 4 28 0 18-6 30 0" fill="none" stroke="#F0C84A" stroke-width="3" stroke-linecap="round"/></svg>
+      <dl class="contact">
+        <div><dt>聯絡窗口</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>電話</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>Email</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>可聯絡時段</dt><dd><span class="tbd">待填</span></dd></div>
+      </dl>
+      <p class="hint">以上聯絡資訊待家長會確認後公告。</p>
+    </section>
+
+    <footer>
+      <svg width="60" height="14" viewBox="0 0 60 14" aria-hidden="true"><path d="M2 8c6-6 10 4 16 0s10-6 16 0 10 4 16 0 6-4 8-2" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <b>和平實驗小學家長會</b>
+      臺北市大安區和平實驗國民小學 家長會
+      <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
+    </footer>
+  </div>
+</main>
+
+<!-- =====================================================
+     底部浮動控件（skip／捐款項目介紹 二擇一 + 三角形）
+     ===================================================== -->
+<button type="button" class="float" id="skipBtn" aria-label="霸氣捐款直接回報"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button>
+<button type="button" class="float float-line" id="introBtn" hidden><span>捐款項目介紹</span><span class="arrow" aria-hidden="true">↺</span></button>
+
+<button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊（點擊或向上滑）" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
+  <svg viewBox="0 0 180 56" aria-hidden="true" focusable="false">
+    <g class="tri-shape">
+      <path d="M20 53 Q8 53 16 45.5 L80 10 Q90 4 100 10 L164 45.5 Q172 53 160 53 Z" fill="url(#triGrad)" stroke="#3B2A20" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke"/>
+      <path class="chev chev-2" d="M81 24l9-7 9 7" fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="chev chev-1" d="M79 34l11-8 11 8" fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="90" y="49.5" text-anchor="middle" fill="#FFFBF3" font-family="Noto Sans TC, sans-serif" font-size="11" font-weight="700" letter-spacing="2">捐款資訊</text>
+    </g>
+  </svg>
+</button>
+
+<!-- 捐款資訊抽屜 -->
+<div class="scrim" id="scrim" hidden></div>
+<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-describedby="drawerWarn" hidden>
+  <div class="drawer-head">
+    <span class="drawer-grip" aria-hidden="true"></span>
+    <div class="drawer-title-row">
+      <h2 id="drawerTitle"><svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="8" width="24" height="16" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M3 13h24" stroke="#3B2A20" stroke-width="2"/><path d="M7 19h6" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/></svg>捐款資訊</h2>
+      <button type="button" class="x" id="drawerClose"><span>關閉</span><span aria-hidden="true">×</span></button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <aside class="notice" id="drawerWarn">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
+      <div>
+        <b>尚未上線</b>
+        <p><strong>本頁尚未上線，專戶帳號公告前請勿依本頁匯款。</strong></p>
+      </div>
+    </aside>
+
+    <div class="ledger">
+      <span class="sticker" aria-hidden="true">待填・尚未公告</span>
+      <dl>
+        <div class="li">
+          <dt>銀行</dt>
+          <dd><span class="tbd">待填</span></dd>
+          <dd class="sub">銀行名稱與代碼尚未公告。</dd>
+        </div>
+        <div class="li">
+          <dt>分行</dt>
+          <dd><span class="tbd">待填</span></dd>
+        </div>
+        <div class="li">
+          <dt>戶名</dt>
+          <dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd>
+          <dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd>
+        </div>
+        <div class="li">
+          <dt>帳號</dt>
+          <dd class="acct is-tbd" id="acctNo" aria-label="帳號待填，尚未公告">———— ——— ———</dd>
+          <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
+        </div>
+      </dl>
+      <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-label>複製帳號</span></button>
+      <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
+    </div>
+
+    <ol class="how">
+      <li><b>自行匯款</b>先用自己的帳戶匯款至專戶。</li>
+      <li><b>保留證明</b>截圖或保留交易明細。</li>
+      <li><b>回本頁回報</b>填寫回報表單，含帳號後五碼。</li>
+    </ol>
+    <ul class="fine">
+      <li><b>請用自己的帳戶匯款</b>，回報時填寫該帳戶的後五碼，家長會才能逐筆核對。</li>
+    </ul>
+
+    <div class="footnote" role="note" aria-label="稅務備註">
+      <b>※ 稅務備註</b><br>
+      捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- 視窗高度後援：不支援 svh 的舊瀏覽器改用實際可見高度 ---------- */
+  var supportsSvh = !!(window.CSS && CSS.supports && CSS.supports('height', '100svh'));
+  if (!supportsSvh) {
+    var setVh = function () { document.documentElement.style.setProperty('--vh', window.innerHeight + 'px'); };
+    setVh();
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+  }
+
+  /* =========================================================
+   * 專戶帳號設定
+   * 帳號正式公告後，把家長會確認過的帳號字串填入 ACCOUNT_NUMBER（可含連字號），
+   * 頁面會自動顯示帳號並啟用「複製帳號」。
+   * 目前尚未公告，請保持空字串，不要填入假數字。
+   * ========================================================= */
+  var ACCOUNT_NUMBER = ''; // 待填
+
+  /* 捐款指定用途。本次活動確定為以下三項，第一個為預設。
+   * 之後若要新增或調整，只要改這個陣列（並同步更新上方 <select> 的 fallback 選項與投影片）即可。
+   * 投影片「我要捐這項」以 data-pick 索引對應本陣列。 */
+  var PURPOSE_OPTIONS = [
+    { value: '不指定（由家長會統籌運用）', label: '不指定（由家長會統籌運用）', selected: true },
+    { value: '教師支援費', label: '教師支援費' },
+    { value: '校園 iPad 汰換計畫', label: '校園 iPad 汰換計畫' }
+  ];
+
+  function renderPurposeOptions() {
+    var sel = $('purpose');
+    if (!sel) return;
+    var current = sel.value;
+    sel.innerHTML = '';
+    PURPOSE_OPTIONS.forEach(function (opt) {
+      var o = document.createElement('option');
+      o.value = opt.value;
+      o.textContent = opt.label;
+      sel.appendChild(o);
+    });
+    var match = PURPOSE_OPTIONS.some(function (opt) { return opt.value === current; });
+    if (match) sel.value = current;
+    else {
+      var def = PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0];
+      if (def) sel.value = def.value;
+    }
+  }
+
+  /* ---------- 動態偏好 ---------- */
+  var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  function motionMs(ms) { return reduceMQ.matches ? 0 : ms; }
+  function focusEl(el) { if (el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } } }
+  function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+  /* ---------- 複製帳號 ---------- */
+  var copyBtn = $('copyBtn'), acctNo = $('acctNo'), acctSub = $('acctSub'), copyMsg = $('copyMsg');
+  var label = copyBtn.querySelector('[data-label]');
+  var hasAccount = /\d/.test(ACCOUNT_NUMBER);
+  var copyTimer;
+
+  if (hasAccount) {
+    acctNo.textContent = ACCOUNT_NUMBER;
+    acctNo.classList.remove('is-tbd');
+    acctNo.classList.add('is-ready');
+    acctNo.removeAttribute('aria-label');
+    acctSub.hidden = true;
+  } else {
+    copyBtn.setAttribute('aria-disabled', 'true');
+    label.innerHTML = '複製帳號 <small>（尚未公告）</small>';
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  function selectAccount() {
+    var range = document.createRange(); range.selectNodeContents(acctNo);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }
+  function copyDone(ok) {
+    clearTimeout(copyTimer);
+    if (ok) {
+      label.textContent = '已複製';
+      copyBtn.classList.add('is-done');
+      copyMsg.textContent = '帳號已複製，可貼到網路銀行或 App。';
+    } else {
+      selectAccount();
+      copyMsg.textContent = '無法自動複製，已幫您選取帳號，請長按後選「拷貝」。';
+    }
+    copyTimer = setTimeout(function () {
+      label.textContent = '複製帳號';
+      copyBtn.classList.remove('is-done');
+      copyMsg.textContent = '';
+    }, ok ? 2000 : 5000);
+  }
+  copyBtn.addEventListener('click', function () {
+    if (!hasAccount) {
+      // 帳號仍待填：不複製任何數字，只提示
+      clearTimeout(copyTimer);
+      copyMsg.textContent = '帳號尚未公告，請先向家長會確認。';
+      copyTimer = setTimeout(function () { copyMsg.textContent = ''; }, 5000);
+      return;
+    }
+    var text = ACCOUNT_NUMBER.replace(/\D/g, ''); // 只複製數字
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(
+        function () { copyDone(true); },
+        function () { copyDone(legacyCopy(text)); }
+      );
+    } else {
+      copyDone(legacyCopy(text));
+    }
+  });
+
+  /* ---------- 表單元素 ---------- */
+  var form = $('reportForm'), thanks = $('thanks'), formErr = $('formErr');
+  var receiptExtra = $('receiptExtra'), receiptTitle = $('receiptTitle'), taxId = $('taxId'), receiptNote = $('receiptNote');
+  renderPurposeOptions();
+  var proof = $('proof'), proofName = $('proofName'), paidAt = $('paidAt');
+  var phone = $('phone'), last5 = $('last5');
+  var purposeSel = $('purpose'), presetNote = $('presetNote');
+
+  // 有 JS 時改用自訂中文錯誤訊息（仍沿用原生 constraint validation）；無 JS 時退回瀏覽器原生驗證。
+  form.noValidate = true;
+
+  /* ---------- 小工具 ---------- */
+  function toHalfWidth(s) {
+    return s.replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); });
+  }
+  function localNow() {
+    var d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 16);
+  }
+  function phoneDigits(v) { return toHalfWidth(v).replace(/[\s\-()（）．.]/g, ''); }
+  function isValidPhone(v) {
+    var d = phoneDigits(v);
+    if (/^09\d{8}$/.test(d)) return true;                 // 手機：09 開頭共 10 碼
+    if (/^\+8869\d{8}$/.test(d)) return true;             // 手機國際格式 +886 9xx
+    return /^0[2-8]\d{7,8}(#\d{1,6})?$/.test(d);          // 市話：含區碼 9–10 碼，可加 #分機
+  }
+
+  /* ---------- 每個欄位的錯誤訊息容器 ---------- */
+  var uid = 0;
+  function errFor(container) {
+    var e = container.querySelector(':scope > .err');
+    if (!e) {
+      e = document.createElement('p');
+      e.className = 'err';
+      e.id = 'err-' + (++uid);
+      e.setAttribute('aria-live', 'polite');
+      container.appendChild(e);
+      container.querySelectorAll('input,select').forEach(function (c) {
+        var d = c.getAttribute('aria-describedby');
+        c.setAttribute('aria-describedby', (d ? d + ' ' : '') + e.id);
+      });
+    }
+    return e;
+  }
+  function controlsOf(container) {
+    return Array.prototype.slice.call(container.querySelectorAll('input,select'));
+  }
+
+  /* ---------- 自訂規則（JS 補強） ---------- */
+  function customCheck(el) {
+    var v = el.value;
+    switch (el.id) {
+      case 'donorName':
+      case 'childName':
+      case 'receiptTitle':
+        if (el.required && v && !v.trim()) return '請填寫' + el.dataset.name;
+        break;
+      case 'phone':
+        if (v && !isValidPhone(v)) return '電話格式不正確：手機請填 09 開頭共 10 碼（例如 0912-345-678）；市話請含區碼（例如 02-2345-6789）。';
+        break;
+      case 'last5':
+        if (v && !/^\d{5}$/.test(v)) return '請填恰好 5 位數字（目前 ' + v.length + ' 位）。';
+        break;
+      case 'taxId':
+        if (v && !/^\d{8}$/.test(v)) return '統一編號為 8 位數字；沒有可留空。';
+        break;
+      case 'amount':
+        if (v && (!/^\d+$/.test(v) || Number(v) < 1)) return '金額請填正整數（例如 1000），不含小數點與符號。';
+        break;
+      case 'childSeat':
+        if (v && (!/^\d+$/.test(v) || Number(v) < 1 || Number(v) > 60)) return '座號請填 1 到 60 之間的整數。';
+        break;
+      case 'paidAt':
+        if (v && v > localNow()) return '匯款時間不可晚於現在，請確認日期與時間。';
+        break;
+      case 'proof':
+        var f = el.files && el.files[0];
+        if (f && f.type && f.type.indexOf('image/') !== 0) return '請選擇圖片檔（例如 JPG、PNG）。';
+        break;
+    }
+    return '';
+  }
+
+  function messageFor(el) {
+    var s = el.validity;
+    var name = el.dataset.name || '此欄位';
+    if (s.valueMissing) {
+      if (el.dataset.msgRequired) return el.dataset.msgRequired;
+      if (el.tagName === 'SELECT') return '請選擇' + name;
+      if (el.type === 'radio' || el.type === 'checkbox') return '請選擇一個選項';
+      return '請填寫' + name;
+    }
+    if (s.customError) return el.validationMessage;
+    if (s.badInput) return name + '請輸入數字';
+    if (s.typeMismatch && el.type === 'email') return 'Email 格式不正確，例如 name@example.com';
+    if (s.patternMismatch || s.tooShort || s.tooLong) return name + '格式不正確';
+    if (s.rangeUnderflow || s.rangeOverflow || s.stepMismatch) return name + '超出可填範圍';
+    return name + '格式不正確';
+  }
+
+  // 驗證一個欄位容器，回傳是否有效
+  function validateField(container, show) {
+    if (container.hidden || container.closest('[hidden]')) { clearField(container); return true; }
+    var ctrls = controlsOf(container), msg = '';
+    for (var i = 0; i < ctrls.length; i++) {
+      var el = ctrls[i];
+      el.setCustomValidity('');
+      el.setCustomValidity(customCheck(el));
+      if (!el.checkValidity()) { msg = messageFor(el); break; }
+    }
+    if (show) {
+      errFor(container).textContent = msg;
+      container.classList.toggle('is-invalid', !!msg);
+      ctrls.forEach(function (c) {
+        if (msg) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid');
+      });
+    }
+    return !msg;
+  }
+  function clearField(container) {
+    var e = container.querySelector(':scope > .err');
+    if (e) e.textContent = '';
+    container.classList.remove('is-invalid');
+    controlsOf(container).forEach(function (c) { c.removeAttribute('aria-invalid'); c.setCustomValidity(''); });
+  }
+  var fields = Array.prototype.slice.call(form.querySelectorAll('[data-field]'));
+
+  /* ---------- 條件欄位 ---------- */
+  function syncReceipt() {
+    var checked = form.querySelector('input[name="receipt"]:checked');
+    var v = checked ? checked.value : '';
+    var need = v === '電子收據' || v === '紙本收據';
+    receiptExtra.hidden = !need;
+    receiptTitle.required = need;
+    receiptNote.textContent = v === '電子收據'
+      ? '電子收據將寄至您填寫的 Email（對帳完成後開立）。'
+      : (v === '紙本收據' ? '紙本收據的領取方式，待家長會另行公告。' : '');
+    if (!need) { receiptTitle.value = ''; taxId.value = ''; }
+  }
+
+  /* ---------- 即時互動 ---------- */
+  // 數字欄位：全形轉半形、去除非數字
+  [last5, taxId].forEach(function (el) {
+    el.addEventListener('input', function () {
+      var clean = toHalfWidth(el.value).replace(/\D/g, '');
+      if (clean !== el.value) el.value = clean;
+    });
+  });
+  phone.addEventListener('input', function () {
+    var half = toHalfWidth(phone.value);
+    if (half !== phone.value) phone.value = half;
+  });
+
+  form.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'receipt') syncReceipt();
+    if (t === purposeSel) presetNote.hidden = true; // 家長自行改用途後，移除「已預選」提示
+    var c = t.closest('[data-field]');
+    if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
+  });
+  // 離開欄位時驗證；已顯示錯誤的欄位在輸入時即時更新。
+  // 若是因為點按其他元素而離開，等手指／滑鼠放開後再顯示錯誤，避免錯誤訊息撐開版面、讓這次點按落空。
+  var pointerIsDown = false, pendingBlur = [];
+  function flushBlur() {
+    var list = pendingBlur; pendingBlur = [];
+    list.forEach(function (c) { validateField(c, true); });
+  }
+  document.addEventListener('pointerdown', function () { pointerIsDown = true; }, true);
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    document.addEventListener(ev, function () { pointerIsDown = false; setTimeout(flushBlur, 0); }, true);
+  });
+  form.addEventListener('focusout', function (e) {
+    var t = e.target;
+    if (!t.matches('input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local]')) return;
+    if (!t.value && !t.closest('.is-invalid')) return; // 尚未填寫時不急著報錯
+    var c = t.closest('[data-field]'); if (!c) return;
+    if (pointerIsDown) { if (pendingBlur.indexOf(c) < 0) pendingBlur.push(c); }
+    else validateField(c, true);
+  });
+  form.addEventListener('input', function (e) {
+    var c = e.target.closest('[data-field]');
+    if (c && c.classList.contains('is-invalid')) validateField(c, true);
+  });
+
+  proof.addEventListener('change', function () {
+    var f = proof.files && proof.files[0];
+    proofName.textContent = f ? '已選擇：' + f.name : '尚未選擇檔案';
+  });
+  function refreshMax() { paidAt.max = localNow(); }
+  paidAt.addEventListener('focus', refreshMax);
+  refreshMax();
+
+  /* ---------- 送出 ---------- */
+  function fmtDateTime(v) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || '');
+    return m ? m[1] + '/' + m[2] + '/' + m[3] + '　' + m[4] + ':' + m[5] : '—';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    refreshMax();
+
+    var firstBad = null, badCount = 0;
+    fields.forEach(function (c) {
+      if (!validateField(c, true)) {
+        badCount++;
+        if (!firstBad) firstBad = c;
+      }
+    });
+    if (firstBad) {
+      formErr.textContent = '還有 ' + badCount + ' 個欄位需要修正，請查看標示紅字的地方。';
+      formErr.hidden = false;
+      var target = controlsOf(firstBad).filter(function (c) { return c.type !== 'hidden'; })[0];
+      firstBad.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'center' });
+      if (target) focusEl(target);
+      return;
+    }
+    formErr.hidden = true;
+
+    var data = new FormData(form);
+
+    // TODO: 之後改為 POST 到 Google Apps Script Web App，寫入 Google 試算表。
+    // 將下方 URL 換成部署後的 Web App 網址：
+    // const GAS_WEB_APP_URL = '';
+    // 現在僅前端示意，不傳送資料。
+    // 例：fetch(GAS_WEB_APP_URL, { method: 'POST', body: data })
+    // 截圖檔案需另行處理（例如轉 base64 或改傳到雲端硬碟），上線前再規劃。
+
+    $('sumDate').textContent = fmtDateTime(String(data.get('paidAt') || ''));
+    $('sumAmount').textContent = 'NT$ ' + Number(data.get('amount')).toLocaleString('zh-TW');
+    $('sumLast5').textContent = String(data.get('last5') || '—');
+
+    form.hidden = true;
+    presetNote.hidden = true;
+    thanks.hidden = false;
+    thanks.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+    focusEl(thanks);
+  });
+
+  function resetForm() {
+    form.reset();
+    fields.forEach(clearField);
+    formErr.hidden = true;
+    syncReceipt();
+    renderPurposeOptions();
+    proofName.textContent = '尚未選擇檔案';
+    refreshMax();
+    presetNote.hidden = true;
+    thanks.hidden = true;
+    form.hidden = false;
+  }
+
+  function openStep2(smooth) {
+    $('c3').hidden = false; $('doneBtn').hidden = true;
+    $('c3').scrollIntoView({ behavior: (smooth && !reduceMQ.matches) ? 'smooth' : 'auto', block: 'start' });
+  }
+  $('doneBtn').addEventListener('click', function () { openStep2(true); setTimeout(function(){ focusEl($('donorName')); }, 400); });
+  $('againBtn').addEventListener('click', function () {
+    resetForm();
+    $('c3').scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+    focusEl($('donorName'));
+  });
+
+  /* =========================================================
+   * 背景捲動鎖（只在抽屜打開時使用；關閉時一定完整還原）
+   * ========================================================= */
+  var LOCK_PROPS = ['position', 'top', 'left', 'right', 'width'];
+  var scrollLocked = false, lockY = 0;
+  function lockScroll() {
+    if (scrollLocked) return;
+    lockY = scrollY();
+    var s = document.body.style;
+    s.position = 'fixed'; s.top = (-lockY) + 'px'; s.left = '0'; s.right = '0'; s.width = '100%';
+    scrollLocked = true;
+  }
+  function unlockScroll() {
+    var s = document.body.style;
+    var wasLocked = scrollLocked || s.position === 'fixed';
+    LOCK_PROPS.forEach(function (p) { s.removeProperty(p); });
+    scrollLocked = false;
+    if (wasLocked) window.scrollTo(0, lockY);
+  }
+
+  /* =========================================================
+   * 區塊切換：投影片 ⇄ 回報表單
+   * ========================================================= */
+  var stage = $('stage'), report = $('report'), reportTitle = $('reportTitle');
+  var skipBtn = $('skipBtn'), introBtn = $('introBtn');
+  var FADE_MS = 320;
+  var mode = 'slides', switching = false, reportScrollY = 0;
+  var drawerOpen = false;
+
+  function showReport(opts) {
+    opts = opts || {};
+    if (switching) return;
+    if (mode === 'report') {
+      if (opts.anchor && $(opts.anchor)) $(opts.anchor).scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+      else if (opts.top) window.scrollTo(0, 0);
+      focusEl(reportTitle);
+      return;
+    }
+    switching = true;
+    skipBtn.hidden = true;
+    stage.classList.add('is-fading');
+    setTimeout(function () {
+      if (!drawerOpen) unlockScroll(); // 保險：不讓殘留的鎖卡住捲動
+      stage.hidden = true;
+      stage.classList.remove('is-fading');
+      report.classList.add('is-fading');
+      report.hidden = false;
+      window.scrollTo(0, opts.top ? 0 : reportScrollY);
+      if (opts.anchor) { var a = $(opts.anchor); if (a) a.scrollIntoView({ block: 'start' }); }
+      void report.offsetWidth; // 觸發 reflow，讓淡入動畫生效
+      report.classList.remove('is-fading');
+      introBtn.hidden = false;
+      mode = 'report';
+      switching = false;
+      focusEl(reportTitle);
+    }, motionMs(FADE_MS));
+  }
+
+  function showSlides() {
+    if (switching || mode === 'slides') return;
+    switching = true;
+    introBtn.hidden = true;
+    reportScrollY = scrollY();
+    report.classList.add('is-fading');
+    setTimeout(function () {
+      if (!drawerOpen) unlockScroll();
+      report.hidden = true; // 只是隱藏，表單資料保留
+      report.classList.remove('is-fading');
+      stage.classList.add('is-fading');
+      stage.hidden = false;
+      window.scrollTo(0, 0);
+      void stage.offsetWidth;
+      stage.classList.remove('is-fading');
+      skipBtn.hidden = false;
+      mode = 'slides';
+      switching = false;
+      focusEl(slides[cur]);
+    }, motionMs(FADE_MS));
+  }
+
+  function goDirect() { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); }
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.s-direct')) goDirect(); });
+  skipBtn.addEventListener('click', function () { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); });
+  introBtn.addEventListener('click', showSlides);
+
+  /* ---------- 「我要捐這項」：預選用途 ---------- */
+  function pickPurpose(i) {
+    var opt = PURPOSE_OPTIONS[i];
+    if (!opt) { showReport({ top: true }); return; }
+    if (!thanks.hidden) resetForm(); // 已送出：開始新的一筆
+    if (!purposeSel.querySelector('option')) renderPurposeOptions();
+    purposeSel.value = opt.value;
+    if (purposeSel.value !== opt.value) renderPurposeOptions(); // 保險：選項不同步時還原預設
+    var c = purposeSel.closest('[data-field]');
+    if (c) clearField(c);
+    if (purposeSel.value === opt.value) {
+      presetNote.textContent = '您選擇捐給：「' + opt.label + '」。匯款完成後按「我匯好了，去回報」，用途會自動帶入。';
+      presetNote.hidden = false;
+    }
+    showReport({ anchor: 'c2' });
+  }
+
+  /* =========================================================
+   * 投影片
+   * ========================================================= */
+  var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+  var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
+  var stepBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-step]'));
+  var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
+  var N = slides.length, cur = 0;
+  // 控件：點擊／滑動起點落在這些元素上時，不切頁
+  var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav], .ix';
+
+  // 「我要捐這項」按鈕標籤與 PURPOSE_OPTIONS 同步
+  Array.prototype.forEach.call(stage.querySelectorAll('[data-pick]'), function (b) {
+    var i = Number(b.getAttribute('data-pick'));
+    var opt = PURPOSE_OPTIONS[i];
+    if (opt) b.setAttribute('aria-label', '我要捐這項：' + opt.label);
+    b.addEventListener('click', function () { pickPurpose(i); });
+  });
+
+  /* ---------- 首次觀看的「左右滑動看更多」提示 ---------- */
+  var HINT_KEY = 'ptaDonationV3.swipeHintSeen';
+  var hintShown = true;
+  try { if (window.sessionStorage && sessionStorage.getItem(HINT_KEY) === '1') hintShown = false; } catch (e) {}
+  if (!hintShown) swipeHint.hidden = true;
+  function dismissHint() {
+    if (!hintShown) return;
+    hintShown = false;
+    try { sessionStorage.setItem(HINT_KEY, '1'); } catch (e) {}
+    swipeHint.classList.add('is-gone');
+    setTimeout(function () { swipeHint.hidden = true; }, motionMs(460));
+  }
+
+  function renderSlides(announce) {
+    slides.forEach(function (s, i) {
+      var on = i === cur;
+      s.classList.toggle('is-active', on);
+      s.inert = !on;
+      if (on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+    });
+    pagerBtns.forEach(function (b, i) {
+      if (i === cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    // 到邊界停住：第一頁無「上一頁」、最後一頁無「下一頁」
+    stepBtns.forEach(function (b) {
+      var target = slides.indexOf(b.closest('.slide')) + Number(b.getAttribute('data-step'));
+      b.disabled = target < 0 || target >= N;
+    });
+    pageNow.textContent = String(cur + 1);
+    stage.classList.toggle('at-first', cur === 0);
+    stage.classList.toggle('at-last', cur === N - 1);
+    if (announce) {
+      slideStatus.textContent = '第 ' + (cur + 1) + ' 頁，共 ' + N + ' 頁：' + slides[cur].getAttribute('data-title');
+    }
+  }
+
+  // 到第一頁／最後一頁即停住（不循環）
+  function go(i) {
+    if (i < 0 || i >= N || i === cur) return false;
+    var active = document.activeElement;
+    var hadFocus = slides[cur].contains(active);
+    var stepDir = hadFocus && active.hasAttribute('data-step') ? active.getAttribute('data-step') : null;
+    stage.style.setProperty('--dir', i > cur ? '1' : '-1');
+    cur = i;
+    renderSlides(true);
+    dismissHint();
+    if (hadFocus) {
+      var next = null;
+      if (stepDir) next = slides[cur].querySelector('[data-step="' + stepDir + '"]:not(:disabled)') || slides[cur].querySelector('[data-step]:not(:disabled)');
+      focusEl(next || slides[cur].querySelector('.s-cta') || slides[cur]);
+    }
+    return true;
+  }
+
+  pagerBtns.forEach(function (b) {
+    b.addEventListener('click', function () { go(Number(b.getAttribute('data-go'))); });
+  });
+  stepBtns.forEach(function (b) {
+    b.addEventListener('click', function () { go(cur + Number(b.getAttribute('data-step'))); });
+  });
+
+  // 電腦：點擊左半＝上一頁、右半＝下一頁（僅滑鼠／觸控筆；觸控以滑動為準）
+  var lastPointer = 'mouse';
+  stage.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
+  stage.addEventListener('click', function (e) {
+    if (lastPointer === 'touch') return;
+    if (e.target.closest(CONTROL_SEL)) return;
+    var sel = window.getSelection ? String(window.getSelection()) : '';
+    if (sel) return; // 正在選取文字
+    var r = stage.getBoundingClientRect();
+    if (e.clientX < r.left + r.width / 2) go(cur - 1); else go(cur + 1);
+  });
+  stage.addEventListener('mousemove', function (e) {
+    var side = '';
+    if (!e.target.closest(CONTROL_SEL)) {
+      var r = stage.getBoundingClientRect();
+      side = e.clientX < r.left + r.width / 2 ? 'prev' : 'next';
+    }
+    if (stage.getAttribute('data-hover') !== side) stage.setAttribute('data-hover', side);
+  });
+  stage.addEventListener('mouseleave', function () { stage.setAttribute('data-hover', ''); });
+
+  // 行動裝置：只有「明顯的水平滑動」才切頁。
+  // 所有觸控監聽都是 passive，絕不 preventDefault；垂直手勢一律交給瀏覽器原生捲動。
+  var SWIPE_MIN = 50, SWIPE_RATIO = 1.5;
+  var tx = null, ty = 0, tScroll = 0;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1 || e.target.closest(CONTROL_SEL)) { tx = null; return; }
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; tScroll = scrollY();
+  }, { passive: true });
+  stage.addEventListener('touchmove', function (e) {
+    if (tx === null) return;
+    if (e.touches.length !== 1) { tx = null; return; }
+    var dx = e.touches[0].clientX - tx, dy = e.touches[0].clientY - ty;
+    // 一旦看起來是垂直手勢，就放棄這次切頁判斷（不攔截，只是不再追蹤）
+    if (Math.abs(dy) > 12 && Math.abs(dy) >= Math.abs(dx)) tx = null;
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (tx === null) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - tx, dy = t.clientY - ty;
+    tx = null;
+    if (Math.abs(scrollY() - tScroll) > 8) return; // 這次手勢其實捲動了頁面
+    if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * SWIPE_RATIO) go(dx < 0 ? cur + 1 : cur - 1);
+  }, { passive: true });
+  stage.addEventListener('touchcancel', function () { tx = null; }, { passive: true });
+
+  /* =========================================================
+   * 捐款資訊抽屜
+   * ========================================================= */
+  var drawer = $('drawer'), scrim = $('scrim'), triBtn = $('triBtn'), drawerClose = $('drawerClose'), drawerBody = $('drawerBody');
+  var drawerTimer;
+  var bgEls = [stage, report, skipBtn, introBtn, triBtn];
+
+  function setBackgroundInert(on) {
+    bgEls.forEach(function (el) {
+      el.inert = on;
+      if (on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden');
+    });
+    // 非目前頁的投影片維持 inert / aria-hidden
+    if (!on) renderSlides(false);
+  }
+
+  function openDrawer() {
+    if (drawerOpen || switching) return;
+    drawerOpen = true;
+    clearTimeout(drawerTimer);
+    lockScroll();
+    scrim.hidden = false;
+    drawer.hidden = false;
+    drawer.style.transform = '';
+    drawerBody.scrollTop = 0;
+    void drawer.offsetWidth;
+    scrim.classList.add('is-open');
+    drawer.classList.add('is-open');
+    triBtn.setAttribute('aria-expanded', 'true');
+    setBackgroundInert(true);
+    focusEl(drawerClose);
+  }
+  function closeDrawer() {
+    if (!drawerOpen) return;
+    drawerOpen = false;
+    try {
+      drawer.classList.remove('is-dragging');
+      scrim.classList.remove('is-open');
+      drawer.classList.remove('is-open');
+      drawer.style.transform = '';
+      triBtn.setAttribute('aria-expanded', 'false');
+      setBackgroundInert(false);
+    } finally {
+      unlockScroll(); // 無論如何都還原 body inline style 並捲回原位置
+    }
+    drawerTimer = setTimeout(function () { drawer.hidden = true; scrim.hidden = true; }, motionMs(360));
+    focusEl(triBtn);
+  }
+  // 從 bfcache 返回等異常情況：抽屜沒開就不該有任何鎖
+  window.addEventListener('pageshow', function () { if (!drawerOpen) unlockScroll(); });
+
+  triBtn.addEventListener('click', openDrawer);
+  scrim.addEventListener('click', closeDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+
+  // 三角形上向上滑＝開啟
+  var triY = null;
+  triBtn.addEventListener('touchstart', function (e) { triY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
+  triBtn.addEventListener('touchmove', function (e) {
+    if (triY === null) return;
+    if (e.touches[0].clientY - triY < -18) { triY = null; openDrawer(); }
+  }, { passive: true });
+  triBtn.addEventListener('touchend', function () { triY = null; }, { passive: true });
+  triBtn.addEventListener('touchcancel', function () { triY = null; }, { passive: true });
+
+  // 面板上向下滑＝關閉（從標題列拖，或內容已捲到最上方時）
+  var dStartY = null, dDragging = false, dDy = 0, dFromHead = false, dAtTop = false;
+  drawer.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { dStartY = null; return; }
+    dStartY = e.touches[0].clientY; dDy = 0; dDragging = false;
+    dFromHead = !!e.target.closest('.drawer-head');
+    dAtTop = drawerBody.scrollTop <= 0;
+  }, { passive: true });
+  drawer.addEventListener('touchmove', function (e) {
+    if (dStartY === null) return;
+    var dy = e.touches[0].clientY - dStartY;
+    if (!dDragging) {
+      if (dy > 8 && (dFromHead || (dAtTop && drawerBody.scrollTop <= 0))) {
+        dDragging = true;
+        drawer.classList.add('is-dragging');
+      } else if (Math.abs(dy) > 8) { dStartY = null; return; } // 交給原生捲動
+      else return;
+    }
+    dDy = Math.max(0, dy);
+    drawer.style.transform = 'translateY(' + dDy + 'px)';
+    if (e.cancelable) e.preventDefault(); // 只在「正在拖曳抽屜」時攔截，頁面本身的捲動不受影響
+  }, { passive: false });
+  function endDrawerDrag() {
+    if (dDragging) {
+      drawer.classList.remove('is-dragging');
+      if (dDy > 80) closeDrawer();
+      else drawer.style.transform = '';
+    }
+    dStartY = null; dDragging = false; dDy = 0;
+  }
+  drawer.addEventListener('touchend', endDrawerDrag, { passive: true });
+  drawer.addEventListener('touchcancel', endDrawerDrag, { passive: true });
+
+  function trapTab(e) {
+    var list = Array.prototype.slice.call(drawer.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+      .filter(function (el) { return !el.disabled && el.offsetParent !== null; });
+    if (!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !drawer.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !drawer.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+  }
+
+  /* ---------- 鍵盤 ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (drawerOpen) {
+      if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); closeDrawer(); }
+      else if (e.key === 'Tab') trapTab(e);
+      return;
+    }
+    // 只有投影片顯示時，方向鍵才切頁；焦點在輸入框時不攔截
+    if (mode !== 'slides' || switching) return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var t = e.target;
+    if (t && t.nodeType === 1 && t.closest('input, select, textarea, [contenteditable]')) return;
+    var handled = false;
+    if (e.key === 'ArrowLeft' || e.key === 'Left') { go(cur - 1); handled = true; }
+    else if (e.key === 'ArrowRight' || e.key === 'Right') { go(cur + 1); handled = true; }
+    else if (e.key === 'Home') { go(0); handled = true; }
+    else if (e.key === 'End') { go(N - 1); handled = true; }
+    if (handled) e.preventDefault();
+  });
+
+  /* ---------- 初始狀態 ---------- */
+  unlockScroll();
+  renderSlides(false);
+  // 以 #report / #c3 連結進入時，直接顯示回報表單
+  if (location.hash === '#report' || location.hash === '#c3') {
+    stage.hidden = true;
+    report.hidden = false;
+    skipBtn.hidden = true;
+    introBtn.hidden = false;
+    mode = 'report';
+    if (location.hash === '#c3') openStep2(false);
+  }
+})();
+
+  // 第一步區塊的複製鈕：沿用抽屜裡的複製邏輯，並同步提示文字
+  (function(){
+    var b2=document.getElementById('copyBtn2'), m2=document.getElementById('copyMsg2'), m1=document.getElementById('copyMsg'), b1=document.getElementById('copyBtn');
+    if(!b2||!b1) return;
+    b2.addEventListener('click', function(){ b1.click(); });
+    new MutationObserver(function(){ m2.textContent=m1.textContent; }).observe(m1,{childList:true,characterData:true,subtree:true});
+  })();
+
+  // 主視覺小彩蛋：點一下（不是滑動）才播放；電腦版點這些區塊不會換頁
+  (function(){
+    var hint = document.querySelector('#slide-1 .tap-hint');
+    document.addEventListener('click', function (e) {
+      var g = e.target.closest && e.target.closest('.ix');
+      if (!g) return;
+      var svg = g.ownerSVGElement, k = 'play-' + g.getAttribute('data-ix');
+      svg.classList.remove(k); void svg.getBoundingClientRect(); svg.classList.add(k);
+      clearTimeout(svg['_t' + k]);
+      svg['_t' + k] = setTimeout(function(){ svg.classList.remove(k); }, k === 'play-land' ? 5200 : (k === 'play-tree' ? 4200 : 2800));
+      if (hint) hint.classList.add('is-gone');
+      var sh = document.getElementById('swipeHint');
+      if (sh && !sh.hidden && !sh.classList.contains('is-gone')) {
+        sh.classList.add('is-gone');
+        try { sessionStorage.setItem('ptaDonationV3.swipeHintSeen', '1'); } catch (e) {}
+        setTimeout(function () { sh.hidden = true; }, 460);
+      }
+    });
+  })();
+</script>
+
+<script>
+  /* 募款進度：接上 Apps Script 後，把 GOAL_STATS_URL 填上；它回傳 {"confirmed":數字,"target":數字,"count":數字,"updated":"文字"}，只含總數，不含任何家長資料。 */
+  (function(){
+    var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET），回傳 {confirmed, reported, target, count, pending, donors, updated}
+    var SAMPLE = { confirmed:133700, reported:142700, target:500000, count:42, pending:5, donors:45, updated:'' }; // 範例數字，未接上前顯示
+    var fmt = function(n){ return 'NT$' + Math.round(n).toLocaleString('en-US'); };
+    function render(d, isSample){
+      var pct = d.target > 0 ? Math.min(100, d.confirmed / d.target * 100) : 0;
+      var pctTxt = (Math.round(pct*10)/10) + '%';
+      document.querySelectorAll('[data-goal-pct]').forEach(function(e){ e.textContent = pctTxt; });
+      document.querySelectorAll('[data-goal-confirmed]').forEach(function(e){ e.textContent = fmt(d.confirmed); });
+      document.querySelectorAll('[data-goal-target]').forEach(function(e){ e.textContent = fmt(d.target); });
+      document.querySelectorAll('[data-goal-count]').forEach(function(e){ e.textContent = d.count; });
+      var setT = function(sel, v){ document.querySelectorAll(sel).forEach(function(e){ e.textContent = v; }); };
+      setT('[data-goal-reported]', fmt(d.reported != null ? d.reported : d.confirmed));
+      setT('[data-goal-left]', fmt(Math.max(0, d.target - d.confirmed)));
+      setT('[data-goal-pending]', d.pending != null ? d.pending : 0);
+      setT('[data-goal-donors]', d.donors != null ? d.donors : d.count);
+      document.querySelectorAll('[data-goal-sample]').forEach(function(e){ e.hidden = !isSample; });
+      if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新於 ' + d.updated; });
+      document.querySelectorAll('[data-goal-pb]').forEach(function(e){ e.setAttribute('aria-valuenow', Math.round(pct)); e.setAttribute('aria-valuetext', '已達成 ' + pctTxt); });
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        document.querySelectorAll('[data-goal-bar]').forEach(function(e){ e.style.width = Math.max(pct, 2) + '%'; });
+        document.querySelectorAll('[data-goal-tree]').forEach(function(e){ e.style.left = Math.min(Math.max(pct, 4), 96) + '%'; });
+      }); });
+    }
+    window.__goalData = { d: SAMPLE, sample: true };
+    render(SAMPLE, true);
+    var view = document.getElementById('goalView'), lastFocus = null;
+    function openGoal(){
+      lastFocus = document.activeElement;
+      view.hidden = false; document.body.classList.add('gv-open'); view.scrollTop = 0;
+      document.querySelectorAll('#goalView [data-goal-bar]').forEach(function(e){ e.style.transition='none'; e.style.width='0'; });
+      document.querySelectorAll('#goalView [data-goal-tree]').forEach(function(e){ e.style.transition='none'; e.style.left='0'; });
+      void view.offsetWidth;
+      document.querySelectorAll('#goalView [data-goal-bar], #goalView [data-goal-tree]').forEach(function(e){ e.style.transition=''; });
+      render(window.__goalData.d, window.__goalData.sample);
+      var b = view.querySelector('.gv-back'); if (b) b.focus({preventScroll:true});
+      if (location.hash !== '#progress') history.pushState(null, '', '#progress');
+    }
+    function closeGoal(fromPop){
+      if (view.hidden) return;
+      view.hidden = true; document.body.classList.remove('gv-open');
+      if (!fromPop && location.hash === '#progress') history.back();
+      if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+    }
+    document.addEventListener('click', function(ev){
+      var o = ev.target.closest('[data-goal-open]'); if (o){ ev.preventDefault(); ev.stopPropagation(); openGoal(); return; }
+      var c = ev.target.closest('[data-goal-close]'); if (c){ ev.preventDefault(); var donate = c.hasAttribute('data-goal-donate'); closeGoal(false);
+        if (donate) { var st = document.getElementById('stage'); if (st && !st.hidden) st.scrollIntoView({behavior:'smooth'}); } }
+    }, true);
+    window.addEventListener('popstate', function(){ if (location.hash !== '#progress') closeGoal(true); });
+    document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') closeGoal(false); });
+    if (location.hash === '#progress') openGoal();
+    if (GOAL_STATS_URL) {
+      fetch(GOAL_STATS_URL).then(function(r){ return r.json(); }).then(function(d){
+        if (d && typeof d.confirmed === 'number' && typeof d.target === 'number') { window.__goalData = { d: d, sample: false }; render(d, false); }
+      }).catch(function(){});
+    }
+  })();
+</script>
+</body>
+</html>
