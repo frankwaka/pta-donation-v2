@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>樣板 4｜溫潤編輯風｜和平實驗小學家長會</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4EFE4;
+    --ink: #2A241C;
+    --muted: #6B6458;
+    --line: #D4CBB8;
+    --rust: #7A3E2C;
+    --olive: #4A5340;
+    --tbd: #8A4A12;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; font-size: 16px; line-height: 1.75; }
+  a { color: var(--rust); }
+  .serif { font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif; }
+  .sample-bar { font-size: 12px; letter-spacing: .16em; text-align: center; color: var(--muted); padding: 10px 20px 0; }
+  .wrap { padding: 0 24px; max-width: 640px; margin: 0 auto; }
+  header.site { text-align: center; padding: 20px 0 0; }
+  .org { font-family: "Noto Serif TC", "Songti TC", serif; font-size: 15px; font-weight: 600; letter-spacing: .28em; }
+  .status { display: block; margin-top: 6px; font-family: "Noto Sans TC", sans-serif; font-size: 11px; letter-spacing: .16em; color: var(--muted); font-weight: 400; }
+  .mast-rule { border: 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); height: 5px; margin: 16px 0 0; background: transparent; }
+  .kicker { text-align: center; font-size: 12px; letter-spacing: .28em; color: var(--rust); margin: 28px 0 10px; }
+  h1 { font-family: "Noto Serif TC", "Songti TC", serif; font-size: 34px; font-weight: 700; letter-spacing: .12em; text-align: center; line-height: 1.35; }
+  .lead { margin: 16px auto 0; max-width: 28em; text-align: center; font-size: 15px; color: var(--muted); }
+  .progress { margin: 32px 0 0; padding-top: 24px; border-top: 1px solid var(--line); }
+  .progress .lab { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; letter-spacing: .14em; }
+  .tag { font-size: 11px; letter-spacing: .1em; color: var(--rust); border: 1px solid var(--rust); padding: 0 6px; margin-left: 6px; }
+  .bar { height: 3px; background: #E0D6C4; margin: 12px 0 14px; }
+  .bar > i { display: block; width: 26.7%; height: 100%; background: var(--rust); }
+  .nums { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .nums b { font-family: "Noto Serif TC", "Songti TC", serif; font-size: 18px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; display: block; margin-top: 2px; letter-spacing: .02em; }
+  .nums span:last-child { text-align: right; }
+  .pct { text-align: center; margin-top: 14px; font-family: "Noto Serif TC", serif; font-size: 15px; letter-spacing: .08em; }
+  .pct b { font-size: 22px; font-weight: 600; }
+  .btn { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 24px; min-height: 48px; background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1 "Noto Sans TC", sans-serif; letter-spacing: .2em; }
+  section { margin-top: 48px; padding-top: 8px; }
+  h2 { font-family: "Noto Serif TC", "Songti TC", serif; font-size: 20px; font-weight: 700; letter-spacing: .16em; text-align: center; margin-bottom: 8px; }
+  h2 + .sec-rule { border: 0; border-top: 1px solid var(--ink); width: 40px; margin: 0 auto 28px; }
+  .purpose { display: grid; grid-template-columns: 48px 1fr; gap: 4px 16px; padding: 0 0 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .purpose:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  .purpose .no { font-family: "Noto Serif TC", serif; font-size: 22px; font-weight: 600; color: var(--rust); line-height: 1.2; }
+  .purpose .meta { font-size: 11px; letter-spacing: .14em; color: var(--muted); margin-bottom: 4px; }
+  .purpose h3 { font-family: "Noto Serif TC", "Songti TC", serif; font-size: 20px; font-weight: 700; letter-spacing: .06em; line-height: 1.4; }
+  .purpose h3 small { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-top: 2px; letter-spacing: 0; font-family: "Noto Sans TC", sans-serif; }
+  .purpose p { margin-top: 6px; font-size: 15px; color: #3D382F; }
+  .notice { font-size: 14px; color: #3D382F; margin-bottom: 24px; text-align: left; }
+  .notice b { font-family: "Noto Serif TC", serif; display: block; font-weight: 700; margin-bottom: 4px; }
+  .ledger { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); }
+  .ledger tr { border-bottom: 1px solid var(--line); }
+  .ledger th { text-align: left; width: 4.2em; font-weight: 500; color: var(--muted); padding: 12px 10px 12px 0; vertical-align: top; font-size: 13px; letter-spacing: .1em; }
+  .ledger td { padding: 12px 0; font-size: 15px; }
+  .tbd { color: var(--tbd); font-weight: 600; }
+  .sub { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+  .acct { letter-spacing: .16em; color: var(--muted); }
+  .how { list-style: none; margin-top: 20px; font-size: 14px; }
+  .how li { margin: 6px 0; }
+  .how b { font-weight: 600; margin-right: .4em; }
+  .form-intro { font-size: 14px; color: var(--muted); margin-bottom: 20px; text-align: center; }
+  .req { color: var(--rust); font-size: 11px; letter-spacing: .08em; margin-left: 8px; font-weight: 600; }
+  .field { margin-bottom: 18px; }
+  .row2 { display: grid; grid-template-columns: 1fr 88px; gap: 14px; }
+  label.lbl { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; margin-bottom: 6px; }
+  input, select { width: 100%; height: 44px; border: 0; border-bottom: 1px solid #B7AD98; background: transparent; padding: 0 0 6px; font: 16px/1.4 "Noto Sans TC", sans-serif; color: var(--ink); border-radius: 0; appearance: none; }
+  input:focus, select:focus { outline: none; border-bottom-color: var(--ink); }
+  select { background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 6px) 16px, calc(100% - 1px) 16px; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 20px; }
+  .note { font-size: 13px; color: var(--muted); }
+  footer { text-align: center; padding: 48px 0 64px; font-size: 12px; color: var(--muted); }
+  footer .mast-rule { margin: 0 auto 20px; }
+  footer b { display: block; font-family: "Noto Serif TC", serif; color: var(--ink); font-size: 14px; letter-spacing: .2em; font-weight: 600; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+  <div class="sample-bar">樣板 4 · 溫潤編輯風　｜　僅供風格參考</div>
+  <div class="wrap">
+    <header class="site">
+      <p class="org">和平實驗小學家長會</p>
+      <span class="status">尚未上線</span>
+      <hr class="mast-rule">
+    </header>
+    <p class="kicker">115 學年度</p>
+    <h1>愛心捐款回報</h1>
+    <p class="lead">本頁供家長自行匯款至專戶後填寫回報，不提供線上付款。募款進度僅計算家長會已確認入帳的金額。</p>
+    <div class="progress">
+      <div class="lab"><span>募款進度</span><span>已確認入帳<span class="tag">範例</span></span></div>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="26.7" aria-label="已確認入帳占募款目標 26.7%（範例）"><i></i></div>
+      <div class="nums">
+        <span>已確認入帳<b>NT$133,700</b></span>
+        <span>募款目標<b>NT$500,000</b></span>
+      </div>
+      <p class="pct">已達成　<b>26.7%</b></p>
+    </div>
+    <a class="btn" href="#form">我要捐款回報</a>
+
+    <section aria-labelledby="p-title">
+      <h2 id="p-title" class="serif">捐款指定用途</h2>
+      <hr class="sec-rule">
+      <article class="purpose">
+        <div class="no">壹</div>
+        <div>
+          <p class="meta">預設選項</p>
+          <h3>不指定<small>（由家長會統籌運用）</small></h3>
+          <p>交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
+        </div>
+      </article>
+      <article class="purpose">
+        <div class="no">貳</div>
+        <div>
+          <p class="meta">可指定</p>
+          <h3>教師支援費</h3>
+          <p>支持老師備課與教學所需的支援。支用範圍與細項，待家長會確認後說明。</p>
+        </div>
+      </article>
+      <article class="purpose">
+        <div class="no">參</div>
+        <div>
+          <p class="meta">可指定</p>
+          <h3>校園 iPad 汰換計畫</h3>
+          <p>協助汰換老舊的校園 iPad，讓教學設備可以接續使用。汰換範圍與時程，待家長會確認後公告。</p>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="b-title">
+      <h2 id="b-title" class="serif">第一步｜捐款資訊</h2>
+      <hr class="sec-rule">
+      <aside class="notice">
+        <b>本頁尚未正式上線</b>
+        專戶帳號仍待家長會公告。在正式公告專戶帳號之前，請先不要依本頁匯款。
+      </aside>
+      <table class="ledger">
+        <tr><th>銀行</th><td><span class="tbd">待填</span><span class="sub">銀行名稱與代碼尚未公告。</span></td></tr>
+        <tr><th>分行</th><td><span class="tbd">待填</span></td></tr>
+        <tr><th>戶名</th><td>臺北市大安區和平實驗國民小學學生家長會<span class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</span></td></tr>
+        <tr><th>帳號</th><td><span class="acct">———— ——— ———</span><span class="sub"><span class="tbd">待填</span>　帳號尚未公告，請勿依本頁匯款。</span></td></tr>
+      </table>
+      <ol class="how">
+        <li><b>自行匯款</b>先用自己的帳戶匯款至專戶。</li>
+        <li><b>保留證明</b>截圖或保留交易明細。</li>
+        <li><b>回來回報</b>匯好後填寫對帳資料。</li>
+      </ol>
+    </section>
+
+    <section id="form" aria-labelledby="f-title">
+      <h2 id="f-title" class="serif">第二步｜匯款回報</h2>
+      <hr class="sec-rule">
+      <p class="form-intro">以下為表單前段示意。標示<span class="req">必填</span>的欄位請務必填寫。</p>
+      <form action="#" method="get" onsubmit="return false;">
+        <div class="field">
+          <label class="lbl" for="donorName">捐款人姓名<span class="req">必填</span></label>
+          <input id="donorName" name="donorName" autocomplete="name">
+        </div>
+        <div class="field">
+          <label class="lbl" for="phone">電話<span class="req">必填</span></label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label class="lbl" for="email">Email<span class="req">必填</span></label>
+          <input id="email" name="email" type="email" autocomplete="email">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label class="lbl" for="childClass">年級班別<span class="req">必填</span></label>
+            <select id="childClass" name="childClass">
+              <option value="" selected disabled>請選擇</option>
+              <option>幼稚園 野薑花班</option>
+              <option>一年級 月橘班</option>
+              <option>二年級 桂花班</option>
+              <option>三年級 山櫻班</option>
+              <option>四年級 欒樹班</option>
+              <option>五年級 木棉班</option>
+              <option>六年級 楓香班</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="lbl" for="childSeat">座號<span class="req">必填</span></label>
+            <input id="childSeat" name="childSeat" inputmode="numeric">
+          </div>
+        </div>
+        <p class="note">本頁只顯示募款總數，不會公開個別家長的姓名或金額。樣板僅供風格參考，送出不會傳送資料。</p>
+      </form>
+    </section>
+
+    <footer>
+      <hr class="mast-rule">
+      <b>和平實驗小學家長會</b>
+      臺北市大安區和平實驗國民小學家長會。本頁尚未上線，專戶帳號與聯絡方式請以家長會正式公告為準。
+    </footer>
+  </div>
+</body>
+</html>
